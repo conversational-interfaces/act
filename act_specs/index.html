@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8'>
+    <title>Act Message</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <script
+            src='https://www.w3.org/Tools/respec/respec-w3c-common'
+            class='remove'></script>
+    <script class='remove'>
+      let respecConfig = {
+        wg: "Conversational Interfaces Working Group",
+        wgURI: "https://www.w3.org/community/conv/",
+        wgPublicList: "public-conv",
+        specStatus: "CG-DRAFT",
+        shortName: "dmpl",
+        editors: [{
+          name: "Nishant Shukla",
+          url: "http://shukla.io",
+          w3cid: 112944
+        }, {
+          name: "Nawar Rajab"
+        }, {
+          name: "Nelson Solano",
+          w3cid: 113168
+        }],
+        edDraftURI: "https://github.com/conversational-interfaces/act",
+        addSectionLinks: true,
+        isPreview: true,
+        lint: {
+          "check-punctuation": true
+        }
+      };
+    </script>
+  </head>
+  <body>
+    <section id='abstract'>
+      <p>
+        This specification defines the syntax and semantics of a behavior definition language.
+	A service may send instructions encoded in this format for clients to realize.
+	These messages include instructions about positioning objects, activating or deactivating systems, changing scenes or contexts, controlling visual properties, animating characters, and playing system-utterance audio.
+      </p>
+    </section>
+    <section id='sotd'></section>
+    <section>
+      <h2>Introduction</h2>
+      <p>
+      </p>
+    <section>
+        <h2>Scope</h2>
+        <h2>Goals and Motivation</h2>
+        <p>
+        </p>
+    </section>
+
+    <section>
+        <h2>Goals and Motivation</h2>
+        <i>This section is informative.</i>
+        <p>
+        </p>
+    </section>
+</section>
+
+<section>
+    <h2>Act Message Format</h2>
+    <i>This section is formative.</i>
+    <p>
+    </p>
+    <section data-dfn-for="Behavior">
+        <h2><dfn>Behavior</dfn> Interface</h2>
+        <pre class="idl">
+      interface Behavior {
+            attribute Object object;
+            attribute Action action;
+            attribute Number delay;
+            attribute Params params;
+            attribute ClosedCaption cc;
+            attribute Language language;
+      };
+      </pre>
+
+        <section data-dfn-for="Delay">
+            <h2><code><dfn>delay</dfn></code></h2>
+            <p>
+                The <a>delay</a> attribute specifies the number of seconds to wait to perform a corresponding action.
+                It is specified in a <code>key:</code><code>value</code> pair where <code>key</code> always
+                takes on the value <code>"delay"</code>, and the <code>value</code> is specified by the author.
+            </p>
+            <div style="text-align: center">
+                <code>"delay": 0</code>
+            </div>
+        </section>
+
+    </section>
+
+    <section data-dfn-for="ClosedCaption">
+        <h2><dfn>ClosedCaption</dfn> Interface</h2>
+        <pre class="idl">
+      interface ClosedCaption {
+            attribute String cc;
+      };
+      </pre>
+        <section data-dfn-for="CC">
+            <h2><code><dfn>cc</dfn></code></h2>
+            <p>TBD.</p>
+            <p>
+                The <a>cc</a> attribute specifies the textual representation of any corresponding animations within the
+                message. It is specified in a <code>key:</code><code>value</code> pair where <code>key</code> always
+                takes on the value <code>"cc"</code>, and the <code>value</code> is specified by the author.
+            </p>
+            <div style="text-align: center">
+                <code>"cc": "The Frog says 'Hi there!'"</code>
+            </div>
+        </section>
+
+    </section>
+
+    <section data-dfn-for="Language">
+        <h2><dfn>Language</dfn> Interface</h2>
+        <pre class="idl">
+      interface Language {
+            attribute String language;
+      };
+      </pre>
+        <section data-dfn-for="language">
+            <h2><code><dfn>language</dfn></code></h2>
+            <p>TBD.</p>
+            <p>
+                The <a>language</a> attribute specifies the tongue in which any text, or audio will be communicated in.
+                It is specified in a <code>key:</code><code>value</code> pair where <code>key</code> always
+                takes on the value <code>"language"</code>, and the <code>value</code> is specified by the author.
+            </p>
+            <div style="text-align: center">
+                <code>"language": "English"</code>
+            </div>
+        </section>
+
+    </section>
+
+    <section data-dfn-for="Object">
+        <h2><dfn>Object</dfn> Interface</h2>
+        <pre class="idl">
+      interface Object {
+            attribute String object;
+      };
+      </pre>
+    </section>
+
+    <section data-dfn-for="Action">
+        <h2><dfn>Action</dfn> Interface</h2>
+        <pre class="idl">
+      interface Action {
+            attribute String action;
+      };
+      </pre>
+    </section>
+
+    <section data-dfn-for="Params">
+        <h2><dfn>Params</dfn> Interface</h2>
+        <pre class="idl">
+      interface Params {
+            attribute String intent;
+            attribute String ssml;
+            attribute String name;
+            attribute String url;
+            attribute Phonemes phonemes;
+          };
+        </pre>
+
+        <section data-dfn-for="Intent">
+            <h2><code><dfn>intent</dfn></code></h2>
+            <p>
+               The <a>intent</a> attribute specifies what a user is trying to accomplish. It is specified in a <code>key:</code>
+                <code>value</code> pair where <code>key</code> always takes on the value <code>"intent"</code>, and
+                the <code>value</code> is specified by the author.
+            </p>
+            <div style="text-align: center">
+                <code>"intent": "statement.i-can-help"</code>
+            </div>
+        </section>
+
+        <section data-dfn-for="SSML">
+            <h2><code><dfn>ssml</dfn></code></h2>
+            <p>
+                The <a>ssml</a> attribute specifies the speech synthesis markup language for the specified intent. It's
+                also specified in a <code>key:</code>
+                <code>value</code> pair where <code>key</code> always takes on the value <code>"SSML"</code> and the
+                <code>value</code> is specified by the author.
+            </p>
+            <div style="text-align: center">
+                <code>"SSML": "I can help you with that!"</code>
+            </div>
+        </section>
+
+        <section data-dfn-for="Name">
+            <h2><code><dfn>name</dfn></code></h2>
+            <p>
+                The <a>name</a> attribute specifies the name of the audio file to be played. It's
+                also specified in a <code>key:</code><code>value</code> pair where <code>key</code> always takes on
+                the value <code>"name"</code> and the<code>value</code> is specified by the author.
+            </p>
+            <div style="text-align: center">
+                <code>"name": "GO_0020"</code>
+            </div>
+        </section>
+
+        <section data-dfn-for="URL">
+            <h2><code><dfn>url</dfn></code></h2>
+            <p>
+                The <a>url</a> attribute specifies the source lcoation of the audio file to be played. It's
+                also specified in a <code>key:</code><code>value</code> pair where <code>key</code> always takes on
+                the value <code>"url"</code> and the<code>value</code> is specified by the author.
+            </p>
+            <div style="text-align: center">
+                <code>"url": "http://audioURL..."</code>
+            </div>
+        </section>
+
+    </section>
+
+    <section data-dfn-for="Phonemes">
+        <h2><dfn>Phonemes</dfn> Interface</h2>
+        <pre class="idl">
+      interface Phonemes {
+            attribute String phonemes;
+      };
+      </pre>
+    </section>
+
+    <section data-dfn-for="Digit">
+        <h2><code><dfn>Digit</dfn></code></h2>
+        <p>
+            A <a>digit</a> represents a real valued integer in the range [0-9].
+        </p>
+        <blockquote>
+	            <pre>
+	                <a>digit</a> ::= [0-9]
+                </pre>
+        </blockquote>
+        <figure id="digit-railroad">
+            <img src="diagrams/digit.png" alt="Digit railroad diagram">
+            <figcaption>Digit</figcaption>
+        </figure>
+    </section>
+
+    <section data-dfn-for="Number">
+        <h2><code><dfn>Number</dfn></code></h2>
+        <p>
+            A <a>number</a> literal may represent either a positive or negative decimal value.
+        </p>
+        <blockquote>
+	            <pre>
+	                <a>number</a> ::= '-'? ( <a>digit</a>+ ( '.' <a>digit</a>* )? | '.' <a>digit</a>+ )
+                </pre>
+        </blockquote>
+        <figure id="number-railroad">
+            <img src="diagrams/number.png" alt="Number railroad diagram">
+            <figcaption>Number</figcaption>
+        </figure>
+    </section>
+
+    <section data-dfn-for="Name">
+        <h2><code><dfn>Name</dfn></code></h2>
+        <p>
+            A <a>name</a> is a sequence of characters conforming to those in the XML standard.
+        </p>
+        <blockquote>
+	            <pre>
+	                <a>name</a> ::= [ <a href="http://www.w3.org/TR/xml-names/#NT-NCName">http://www.w3.org/TR/xml-names/#NT-NCName</a> ]
+                </pre>
+        </blockquote>
+        <figure id="name-railroad">
+            <img src="diagrams/name.png" alt="Name rail-road diagram">
+            <figcaption>Name</figcaption>
+        </figure>
+    </section>
+
+    <section data-dfn-for="String">
+        <h2><code><dfn>String</dfn></code></h2>
+        <p>
+            A <a>string</a> literal represents a finite sequence of characters.
+            It is surrounded by starting and ending quotation marks.
+        </p>
+        <blockquote>
+	            <pre>
+	                <a>string</a> :: = '"' <a>name</a> '"'
+                </pre>
+        </blockquote>
+        <figure id="string-railroad">
+            <img src="diagrams/string.png" alt="String railroad diagram">
+            <figcaption>String</figcaption>
+        </figure>
+    </section>
+
+
+</section>
+
+<section>
+    <h2>Examples</h2>
+    <i>This section is informative.</i>
+    <p>
+        The following are examples of objects and their associated behaviors.
+    </p>
+
+    <section>
+        <h2><code><dfn>Animate</dfn></code></h2>
+        <p>
+            An <a>animate</a> payload specifies an object to be animated by the client.
+        </p>
+        <pre class="example" title="Animate Message Payload">
+          {
+            "object": "goose",
+            "action": "animate",
+            "delay": 0,
+            "params": { "name": "FR_Maracas_1" }
+          }
+        </pre>
+
+    </section>
+
+    <section>
+        <h2><code><dfn>Say</dfn></code></h2>
+        <p>A <a>say</a> payload specifies what the desired object should say.</p>
+        <pre class="example" title="Say Message Payload">
+          {
+            "object": "frog",
+            "action": "say",
+            "delay": 0,
+            "params": {
+              "intent": "statement.i-can-help",
+              "SSML": "I can help you with that!",               // utterance previously
+              "name": "GO_0020",                                 // audio file name
+              "url": "http://audioURL...",
+              "phonemes":{
+                              "segments": [
+                                              {
+                                                  "phonemeLabel": "IY",
+                                                  "startFrame": 3
+                                              }
+                                          ],
+                              "framecount": 202
+                         }
+          }
+        </pre>
+    </section>
+
+    <section>
+        <h2><code><dfn>Do</dfn></code></h2>
+        <p>A <a>do</a> payload specifies the name of the action the specified target should perform.</p>
+        <pre class="example" title="Do Message Payload">
+          {
+            "object": "goose",
+            "action": "do",
+            "delay": 0,
+            "params": { "name": "walk", "context" : ["pig"]}
+          }
+        </pre>
+    </section>
+
+    <section>
+        <h2><code><dfn>Show</dfn></code></h2>
+        <pre class="example" title="Animate Message Payload">
+          TBD
+        </pre>
+    </section>
+
+    <section>
+        <h2><code><dfn>Play</dfn></code></h2>
+        <p>A <a>play</a> payload specifies the audio clip the client should play.</p>
+        <pre class="example" title="Play Message Payload">
+          {
+            "object": "sound",
+            "action": "play",
+            "delay": 0,
+            "params": { "name": "sxf.bonusround.wav" }
+          }
+        </pre>
+    </section>
+
+    <section>
+        <h2><code><dfn>Trigger</dfn></code></h2>
+        <p>A <a>trigger</a> payload relays an event to the client.</p>
+        <pre class="example" title="Trigger Message Payload">
+          {
+            "object": "system",
+            "action": "trigger",
+            "delay": 0,
+            "params": { "name": "name", "context": [data] }
+          }
+        </pre>
+    </section>
+
+    <section>
+        <h2><code><dfn>Spawn</dfn></code></h2>
+        <p>A <a>spawn</a> payload notifies the client to display the specified object.</p>
+        <pre class="example" title="Spawn Message Payload">
+          {
+            "object": "system",
+            "action": "spawn",
+            "delay": 0,
+            "params": {"name": "frog", "context": ["character2"]}
+          }
+        </pre>
+    </section>
+
+    <section>
+        <h2><code><dfn>Destroy</dfn></code></h2>
+        <p>A <a>destroy</a> payload notifies the client to remove the specified object.</p>
+        <pre class="example" title="Destroy Message Payload">
+          {
+            "object": "system",
+            "action": "destroy",
+            "delay": 0,
+            "params": {"name": "frog"}
+          }
+        </pre>
+    </section>
+</section>
+
+<section>
+    <h2>Timing Control</h2>
+    <i>This section is informative.</i>
+    <p>
+        In order to synchronize the messages(especially the "say" and "animate" actions), we propose to use the
+        "message block". A message block is an ordered list of JSON objects, where each object conforms to the "act"
+        message format specified within this document. The server sends sequences of blocks, and the client (eg. Unity)
+        must fully process one block of message before reading the next block. While processing a single block of messages,
+        the client should schedule messages by putting the messages on "tracks"(every action of every object has a track),
+        then all the tracks start simultaneously.
+    </p>
+    <section>
+        <h2>Examples</h2>
+        <i>This section is informative.</i>
+        <p>
+            In the following example we examine events A and B: we want to enforce that event B can't start
+            until event A has started.
+        </p>
+        <p><i>Right when Goose starts speaking, Fox jumps.</i></p>
+        <pre class="example" title="Start-to-Start">
+          [
+            {
+              "object": "goose",
+              "action": "say",
+              "params": {"name": "GO_0020" , "intent": "statement.i-can-help", "SSML": "I can help you with that!"}
+            },
+            {
+              "object": "fox",
+              "action": "animate",
+              "params": {"name": "FX_Jump"}
+            }
+          ]
+        </pre>
+
+        <p>
+            In this example we want to run the statements in a particular sequence. Specifically, B can't start until
+            A has finished. In order to achieve the desired order, we place each behavior in a separate block.
+        </p>
+        <i>Only when Goose is done speaking, is the Fox able to jump.</i>
+        <pre class="example" title="Finish-to-Start">
+          [
+            {
+              "object": "goose",
+              "action": "say",
+              "params": {"name": "GO_0020" ,"intent": "statement.i-can-help","SSML": "I can help you with that!"}
+            }
+          ]
+
+          [
+            {
+              "object": "fox",
+              "action": "animate"
+              "params": {"name": "FX_Jump"}
+            }
+          ]
+        </pre>
+
+        <p>
+            In this example we show how to sequence actions together.
+        </p>
+        <i>Goose waves hands as it starts speaking. After hand-waving animation completes, sound effect plays.</i>
+        <pre class="example" title="Sequencing Actions">
+          [
+            {"id": "0", "object": "goose", "action": "animate", "params": {"name": "wave-hands"}},
+            {"object": "goose", "action": "say", "params": {"name": "GO_0020" ,"intent": "greeting"}},
+            {"object": "sound", "action": "play", "params": {"name": "sfx.boom" ,"intent": "sfx.boom"}, "start": {"trigger" : "end", "id":0}}
+          ]
+        </pre>
+    </section>
+
+    <p>
+        In this example we show how to sequence actions together.
+    </p>
+    <i>Goose waves hands as it starts speaking. After _audio of utterances complets, then the sound effect plays.</i>
+    <pre class="example" title="Sequencing Actions">
+        [
+          {"object": "goose", "action": "animate", "params": {"name": "wave-hands"}},
+          {"object": "goose", "action": "say", "params": {"name": "GO_0020" ,"intent": "greeting"}},
+          {"object": "sound", "action": "play", "params": {"name": "sfx.boom"}, "start": {"trigger" : "end", "id":1}}
+        ]
+      </pre>
+
+    <p>
+        In this example we show how to control different objects in parallel.
+    </p>
+    <i>Goose and fox cheer "yay!", together at the same time.</i>
+    <pre class="example" title="Parallel Actions">
+        [
+          {"object": "goose", "action": "say", "params": {"name": "GO_0020","intent": "yay"}},
+          {"object": "fox", "action": "say", "params": {"name": "FX_0020","intent": "yay"}}
+        ]
+      </pre>
+
+    <p>
+        In this example we show how to control different objects in parallel.
+    </p>
+    <i>Goose and fox cheer together, and then jump together.</i>
+    <pre class="example" title="Parallel Actions">
+        [
+          {"object": "goose", "action": "say", "params": {"name": "GO_0020" ,"intent": "yay"}},
+          {"object": "fox", "action": "say", "params": {"name": "FX_0020" ,"intent": "yay"}}
+        ]
+
+        [
+          {"object": "goose", "action": "animate", "params": {"name": "jump"}},
+          {"object": "fox", "action": "animate", "params": {"name": "jump"}}
+        ]
+      </pre>
+
+    <p>
+        In this example we show how to control different objects in parallel.
+    </p>
+    <i>Goose and fox cheer together (goose finishes before fox). Goose's jump animation starts right after cheering. Same for Fox.</i>
+    <pre class="example" title="Parallel Actions">
+        [
+          {"id": "0", "object": "goose", "action": "say", "params": {"name": "GO_0020" ,"intent": "yay"}},
+          {"id": "1", "object": "fox", "action": "say", "params": {"name": "FX_0020" ,"intent": "yay"}},
+          {"object": "goose", "action": "animate", "params": {"name": "jump"}, "start": {"trigger" : "end", "id":0}},
+          {"object": "fox", "action": "animate", "params": {"name": "jump"}, "start": {"trigger" : "end", "id":1}}
+        ]
+      </pre>
+</section>
+
+<section>
+    <h2>Related Technologies</h2>
+    <i>This section is informative.</i>
+    <section>
+        <h2>Behavioral Markup Language</h2>
+        <h3>BML vs. DMPL Act Blocks</h3>
+        <p>
+            The following BMPl snippet simultaneously starts an animation and a speech utterance.
+        </p>
+        <pre id="tc1">
+        &ltbml character="Alice"&gt
+            &ltpointing target="blueBox" mode="RIGHT_HAND" start="speech1:start"/&gt
+            &ltspeech id="speech1"&gt
+                &lttext>Look there!&lt/text&gt
+            &lt/speech&gt
+        &lt/bml&gt
+
+      </pre>
+    </section>
+
+    <p>The equivalent behavior can be represented in DMPL Act Messages as follows.</p>
+    <pre id="tc2">
+      [
+        {"object": "Alice", "action": "do", "params": {"name": "point", "context": ["blueBox", "mode": "RIGHT_HAND"]}},
+        {"object": "Alice", "action": "say", "params": {"intent": "look"}}
+      ]
+    </pre>
+
+    <p>BML documentation recommends using &lt;wait&gt; to align behavior with a condition or an event.</p>
+    <pre id="tc3">
+      &ltbml character="Alice"&gt
+        &ltgesture id=”g1” type=”point” target=”object1”/&gt
+        &ltbody id=”b1” posture=”sit”/&gt
+        &ltwait id=”w1” condition=”g1:end AND b1:end”/&gt
+        &ltgaze target=”object2” start=”w1:end”/&gt
+      &lt/bml&gt
+    </pre>
+
+    <p>The &lt;wait&gt; is unnecessary since we can synchronize behaviors by placing them in different blocks.</p>
+    <pre id="tc4">
+      [
+        {"object": "Alice", "action": "do", "params": {"name": "point", "context": ["object1"]}},
+        {"object": "Alice", "action": "do", "params": {"name": "body", "context": ["sit"]}}
+      ]
+
+      [
+        {"object": "Alice", "action": "animate", "params": {"name": "gaze"}}
+      ]
+    </pre>
+
+    <p>Multi-party behavior synchronization is limited. It's non-trivial to have two characters say something at the
+        same time as BML.</p>
+    <pre id="tc5">
+      &ltbml character="Alice"&gt
+          &ltspeech&gt&lttext&gtYay!&lt/text&gt&lt/speech&gt
+      &lt/bml&gt
+
+      &ltbml character="Bob"&gt
+          &ltspeech&gt&lttext&gtYay!&lt/text&gt&lt/speech&gt
+      &lt/bml>
+    </pre>
+
+    <p>DMPL Act format allows fine-control of multi-party behaviors, with a natural syntax.</p>
+    <pre id="tc6">
+      [
+        {"object": "Alice", "action": "say", "params": {"intent": "yay"}},
+        {"object": "Bob", "action": "say", "params": {"intent": "yay"}}
+      ]
+    </pre>
+
+    <p>DMPL Act format allows fine-control of multi-party behaviors, with a natural syntax.</p>
+    <pre id="tc7">
+      [
+        {"object": "Alice", "action": "say", "params": {"intent": "yay"}},
+        {"object": "Bob", "action": "say", "params": {"intent": "yay"}}
+      ]
+    </pre>
+
+</section>
+<section>
+    <h2>References</h2>
+    <i>This section is informative.</i>
+</section>
+
+</body>
+</html>
+

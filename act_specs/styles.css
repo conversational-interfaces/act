@@ -1,0 +1,43 @@
+#comparison-table{
+    border: black 1px solid;
+    border-collapse: collapse;
+    padding: 5px;
+    text-align: left;
+    vertical-align: baseline;
+}
+
+#expression-table{
+    border: black 1px solid;
+    border-collapse: collapse;
+    padding: 5px;
+    text-align: left;
+    vertical-align: baseline;
+}
+
+th, td {
+    padding: 5px;
+    text-align: left;
+    border: 1px solid black;
+}
+
+tr {
+    vertical-align: baseline;
+}
+
+code {
+    text-align: left;
+}
+
+#tc1, #tc2, #tc3, #tc4, #tc5, #tc6, #tc7{
+  padding: .5em;
+  border-left-width: .5em;
+  border-left-style: solid;
+  border-color: #e0cb52;
+  background: #fcfaee;
+}
+
+
+
+
+
+
