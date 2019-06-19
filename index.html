@@ -22,6 +22,7 @@
           name: "Nawar Rajab"
         }, {
           name: "Nelson Solano",
+            url: "https://www.linkedin.com/in/nelson-solano-24a935126/",
           w3cid: 113168
         }],
         edDraftURI: "https://github.com/conversational-interfaces/act",
@@ -66,96 +67,162 @@
     <i>This section is formative.</i>
     <p>
     </p>
-    <section data-dfn-for="Behavior">
+    <section data-dfn-for="Behavior" data-link-for="Behavior">
         <h2><dfn>Behavior</dfn> Interface</h2>
         <pre class="idl">
       interface Behavior {
-            attribute Object object;
-            attribute Action action;
+            attribute String object;
+            attribute String action;
             attribute Number delay;
             attribute Params params;
             attribute ClosedCaption cc;
-            attribute Language language;
-      };
-      </pre>
-
-        <section data-dfn-for="Delay">
-            <h2><code><dfn>delay</dfn></code></h2>
-            <p>
-                The <a>delay</a> attribute specifies the number of seconds to wait to perform a corresponding action.
-                It is specified in a <code>key:</code><code>value</code> pair where <code>key</code> always
-                takes on the value <code>"delay"</code>, and the <code>value</code> is specified by the author.
-            </p>
-            <div style="text-align: center">
-                <code>"delay": 0</code>
-            </div>
-        </section>
-
-    </section>
-
-    <section data-dfn-for="ClosedCaption">
-        <h2><dfn>ClosedCaption</dfn> Interface</h2>
-        <pre class="idl">
-      interface ClosedCaption {
-            attribute String cc;
-      };
-      </pre>
-        <section data-dfn-for="CC">
-            <h2><code><dfn>cc</dfn></code></h2>
-            <p>TBD.</p>
-            <p>
-                The <a>cc</a> attribute specifies the textual representation of any corresponding animations within the
-                message. It is specified in a <code>key:</code><code>value</code> pair where <code>key</code> always
-                takes on the value <code>"cc"</code>, and the <code>value</code> is specified by the author.
-            </p>
-            <div style="text-align: center">
-                <code>"cc": "The Frog says 'Hi there!'"</code>
-            </div>
-        </section>
-
-    </section>
-
-    <section data-dfn-for="Language">
-        <h2><dfn>Language</dfn> Interface</h2>
-        <pre class="idl">
-      interface Language {
             attribute String language;
       };
       </pre>
-        <section data-dfn-for="language">
-            <h2><code><dfn>language</dfn></code></h2>
+
+        <section>
+            <h3><dfn>delay</dfn> attribute</h3>
+            <p>
+                The <a>delay</a> attribute specifies the number of seconds to wait to perform a corresponding action.
+                It is specified in a <code>key:</code><code>value</code> pair where <code>key</code> always
+                takes on the value <code>"delay"</code>, and the <code>value</code> is a <a>number</a>specified by the author.
+            </p>
+            <pre id="delay">
+                "delay": 0
+            </pre>
+        </section>
+
+        <section>
+            <h3><dfn>language</dfn> attribute</h3>
             <p>TBD.</p>
             <p>
                 The <a>language</a> attribute specifies the tongue in which any text, or audio will be communicated in.
                 It is specified in a <code>key:</code><code>value</code> pair where <code>key</code> always
                 takes on the value <code>"language"</code>, and the <code>value</code> is specified by the author.
             </p>
-            <div style="text-align: center">
-                <code>"language": "English"</code>
-            </div>
+            <pre id="language">
+                "language": "English"
+            </pre>
+        </section>
+
+        <section>
+            <h3><dfn>object</dfn> attribute</h3>
+            <p>
+                The <a>object</a> attribute notifies the target of the corresponding actions. It is specified in a
+                <code>key:</code><code>value</code> pair where <code>key</code> always takes on the value <code>"object"</code>,
+                and the <code>value</code> is specified by the author.
+            </p>
+            <pre id="object">
+                "object": "system"
+            </pre>
+        </section>
+
+        <section>
+            <h3><dfn>action</dfn> attribute</h3>
+            <p>
+                The <a>action</a> attribute notifies the client of the corresponding actions to be executed. It is
+                specified in a <code>key:</code><code>value</code> pair where <code>key</code> always takes on the value
+                <code>"object"</code>, and the <code>value</code> is specified by the author.
+            </p>
+            <pre id="action">
+                "action": "trigger"
+            </pre>
+        </section>
+
+        <section>
+            <h3><dfn>params</dfn> attribute</h3>
+        </section>
+        <p>See <a>Params</a> below.</p>
+
+    </section>
+
+    <section data-dfn-for="ClosedCaption" data-link-for="ClosedCaption">
+        <h2><dfn>ClosedCaption</dfn> Interface</h2>
+        <pre class="idl">
+      interface ClosedCaption {
+            attribute String cc;
+      };
+      </pre>
+        <section>
+            <h3><dfn>cc</dfn> attribute</h3>
+            <p>TBD.</p>
+            <p>
+                The <a>cc</a> attribute specifies the textual representation of any corresponding events within the
+                message. It is specified in a <code>key:</code><code>value</code> pair where <code>key</code> always
+                takes on the value <code>"cc"</code>, and the <code>value</code> is specified by the author.
+            </p>
+            <pre id="cc">
+                "cc": "The Frog says 'Hi there!'"
+            </pre>
         </section>
 
     </section>
 
-    <section data-dfn-for="Object">
-        <h2><dfn>Object</dfn> Interface</h2>
+<!--    <section data-dfn-for="Language" data-link-for="Language">
+        <h2><dfn>Language</dfn> Interface</h2>
+        <pre class="idl">
+      interface Language {
+            attribute String language;
+      };
+      </pre>
+        <section>
+            <h3><dfn>language</dfn> attribute</h3>
+            <p>TBD.</p>
+            <p>
+                The <a>language</a> attribute specifies the tongue in which any text, or audio will be communicated in.
+                It is specified in a <code>key:</code><code>value</code> pair where <code>key</code> always
+                takes on the value <code>"language"</code>, and the <code>value</code> is specified by the author.
+            </p>
+            <pre id="language">
+                "language": "English"
+            </pre>
+        </section>
+
+    </section>-->
+
+<!--    <section data-dfn-for="Object" data-link-for="Object">
+        <h3><dfn>Object</dfn> Interface</h3>
         <pre class="idl">
       interface Object {
             attribute String object;
       };
       </pre>
-    </section>
 
-    <section data-dfn-for="Action">
+        <section>
+            <h3><dfn>object</dfn> attribute</h3>
+            <p>
+                The <a>object</a> attribute notifies the target of the corresponding actions. It is specified in a
+                <code>key:</code><code>value</code> pair where <code>key</code> always takes on the value <code>"object"</code>,
+                and the <code>value</code> is specified by the author.
+            </p>
+            <pre id="object">
+                "object": "system"
+            </pre>
+        </section>
+    </section>-->
+
+<!--    <section data-dfn-for="Action">
         <h2><dfn>Action</dfn> Interface</h2>
         <pre class="idl">
       interface Action {
             attribute String action;
       };
       </pre>
-    </section>
 
-    <section data-dfn-for="Params">
+        <section>
+            <h3><dfn>action</dfn> attribute</h3>
+            <p>
+                The <a>action</a> attribute notifies the client of the corresponding actions to be executed. It is
+                specified in a <code>key:</code><code>value</code> pair where <code>key</code> always takes on the value
+                <code>"object"</code>, and the <code>value</code> is specified by the author.
+            </p>
+            <pre id="action">
+                "action": "trigger"
+            </pre>
+        </section>
+    </section>-->
+
+    <section data-dfn-for="Params" data-link-for="Params">
         <h2><dfn>Params</dfn> Interface</h2>
         <pre class="idl">
       interface Params {
@@ -167,58 +234,58 @@
           };
         </pre>
 
-        <section data-dfn-for="Intent">
-            <h2><code><dfn>intent</dfn></code></h2>
+        <section>
+            <h3><dfn>intent</dfn> attribute</h3>
             <p>
                The <a>intent</a> attribute specifies what a user is trying to accomplish. It is specified in a <code>key:</code>
                 <code>value</code> pair where <code>key</code> always takes on the value <code>"intent"</code>, and
                 the <code>value</code> is specified by the author.
             </p>
-            <div style="text-align: center">
-                <code>"intent": "statement.i-can-help"</code>
-            </div>
+            <pre id="intent">
+                "intent": "statement.i-can-help"
+            </pre>
         </section>
 
-        <section data-dfn-for="SSML">
-            <h2><code><dfn>ssml</dfn></code></h2>
+        <section>
+            <h3><dfn>ssml</dfn> attribute</h3>
             <p>
                 The <a>ssml</a> attribute specifies the speech synthesis markup language for the specified intent. It's
                 also specified in a <code>key:</code>
                 <code>value</code> pair where <code>key</code> always takes on the value <code>"SSML"</code> and the
                 <code>value</code> is specified by the author.
             </p>
-            <div style="text-align: center">
-                <code>"SSML": "I can help you with that!"</code>
-            </div>
+            <pre id="ssml">
+                "SSML": "I can help you with that!"
+            </pre>
         </section>
 
-        <section data-dfn-for="Name">
-            <h2><code><dfn>name</dfn></code></h2>
+        <section>
+            <h2><dfn>name</dfn> attribute</h2>
             <p>
                 The <a>name</a> attribute specifies the name of the audio file to be played. It's
                 also specified in a <code>key:</code><code>value</code> pair where <code>key</code> always takes on
                 the value <code>"name"</code> and the<code>value</code> is specified by the author.
             </p>
-            <div style="text-align: center">
-                <code>"name": "GO_0020"</code>
-            </div>
+            <pre id="name">
+                "name": "GO_0020"
+            </pre>
         </section>
 
-        <section data-dfn-for="URL">
-            <h2><code><dfn>url</dfn></code></h2>
+        <section>
+            <h2><dfn>url</dfn> attribute</h2>
             <p>
                 The <a>url</a> attribute specifies the source lcoation of the audio file to be played. It's
                 also specified in a <code>key:</code><code>value</code> pair where <code>key</code> always takes on
                 the value <code>"url"</code> and the<code>value</code> is specified by the author.
             </p>
-            <div style="text-align: center">
-                <code>"url": "http://audioURL..."</code>
-            </div>
+            <pre id="url">
+                "url": "http://audioURL..."
+            </pre>
         </section>
 
     </section>
 
-    <section data-dfn-for="Phonemes">
+    <section data-dfn-for="Phonemes" data-link-for="Phonemes">
         <h2><dfn>Phonemes</dfn> Interface</h2>
         <pre class="idl">
       interface Phonemes {
@@ -619,11 +686,6 @@
     </pre>
 
 </section>
-<section>
-    <h2>References</h2>
-    <i>This section is informative.</i>
-</section>
-
 </body>
 </html>
 
