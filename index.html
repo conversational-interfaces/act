@@ -74,8 +74,8 @@
             attribute String object;
             attribute String action;
             attribute Number delay;
-            attribute Params params;
             attribute ClosedCaption cc;
+            attribute Params param;
             attribute String language;
       };
       </pre>
@@ -130,13 +130,22 @@
         </section>
 
         <section>
-            <h3><dfn>params</dfn> attribute</h3>
+            <h3><dfn>param</dfn> attribute</h3>
+            <p>
+                See <a>Params</a> below.
+            </p>
         </section>
-        <p>See <a>Params</a> below.</p>
+
+        <section>
+            <h3><dfn>cc</dfn> attribute</h3>
+            <p>
+                See <a>ClosedCaption</a> below.
+            </p>
+        </section>
 
     </section>
 
-    <section data-dfn-for="ClosedCaption" data-link-for="ClosedCaption">
+    <section data-dfn-for="ClosedCaption" data-link-for ="ClosedCaption">
         <h2><dfn>ClosedCaption</dfn> Interface</h2>
         <pre class="idl">
       interface ClosedCaption {
@@ -155,7 +164,6 @@
                 "cc": "The Frog says 'Hi there!'"
             </pre>
         </section>
-
     </section>
 
 <!--    <section data-dfn-for="Language" data-link-for="Language">
@@ -222,6 +230,7 @@
         </section>
     </section>-->
 
+
     <section data-dfn-for="Params" data-link-for="Params">
         <h2><dfn>Params</dfn> Interface</h2>
         <pre class="idl">
@@ -230,7 +239,7 @@
             attribute String ssml;
             attribute String name;
             attribute String url;
-            attribute Phonemes phonemes;
+            attribute Phonemes phoneme;
           };
         </pre>
 
@@ -283,6 +292,13 @@
             </pre>
         </section>
 
+        <section>
+            <h3><dfn>phoneme</dfn> attribute</h3>
+            <p>
+                See <a>Phonemes</a> below.
+            </p>
+        </section>
+
     </section>
 
     <section data-dfn-for="Phonemes" data-link-for="Phonemes">
@@ -292,6 +308,26 @@
             attribute String phonemes;
       };
       </pre>
+
+        <section>
+            <h3><dfn>phonemes</dfn> attribute</h3>
+            <p>
+                The <a>phonemes</a> attribute contains the phonetic representation of the corresponding audio file to be
+                played. It is specified using a <code>key:</code> <code>value</code> pair where <code>key</code> always
+                takes on the value <code>"phonemes"</code> and the <code>value</code> takes on the form below.
+            </p>
+            <pre id="phones">
+                "phonemes":{
+                    "segments": [
+                                    {
+                                        "phonemeLabel": "IY",
+                                        "startFrame": 3
+                                    }
+                                ],
+                    "framecount": 202
+                }
+            </pre>
+        </section>
     </section>
 
     <section data-dfn-for="Digit">
@@ -684,7 +720,9 @@
         {"object": "Bob", "action": "say", "params": {"intent": "yay"}}
       ]
     </pre>
-
 </section>
+    <section>
+      <h2>References</h2>
+  </section>
 </body>
 </html>

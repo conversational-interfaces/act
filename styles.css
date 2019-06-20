@@ -30,7 +30,7 @@ code {
 
 #tc1, #tc2, #tc3, #tc4, #tc5, #tc6, #tc7,
 #delay, #cc, #language, #intent, #ssml,
-#name, #url, #url, #object, #action{
+#name, #url, #url, #object, #action, #phones{
   padding: .5em;
   border-left-width: .5em;
   border-left-style: solid;
