@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset='utf-8'>
-    <title>Act Message</title>
+    <title>Act Instruction Format</title>
     <link rel="stylesheet" type="text/css" href="styles.css">
     <script
             src='https://www.w3.org/Tools/respec/respec-w3c-common'
@@ -16,10 +16,11 @@
         shortName: "dmpl",
         editors: [{
           name: "Nishant Shukla",
-          url: "http://shukla.io",
+          url: "https://shukla.io",
           w3cid: 112944
         }, {
-          name: "Nawar Rajab"
+          name: "Nawar Rajab",
+          url: "https://nawarrajab.com"
         }, {
           name: "Nelson Solano",
             url: "https://www.linkedin.com/in/nelson-solano-24a935126/",
@@ -38,8 +39,9 @@
     <section id='abstract'>
       <p>
         This specification defines the syntax and semantics of a behavior definition language.
-	A service may send instructions encoded in this format for clients to realize.
-	These messages include instructions about positioning objects, activating or deactivating systems, changing scenes or contexts, controlling visual properties, animating characters, and playing system-utterance audio.
+        A service may send instructions encoded in this format for clients to realize.
+        These messages include instructions about positioning objects, activating or deactivating systems, 
+        changing scenes or contexts, controlling visual properties, animating characters, and playing audio.
       </p>
     </section>
     <section id='sotd'></section>
@@ -69,80 +71,76 @@
     </p>
     <section data-dfn-for="Behavior" data-link-for="Behavior">
         <h2><dfn>Behavior</dfn> Interface</h2>
+        The atomic unit that can be immediately realized by a client is called a <a>behavior</a>. 
+        Consider the sentence, "The boy says hello."
+        By analyzing the grammar, we find the subject is "boy", the verb is "says", and the direct-object is "hello".
+        The intuition behind the <a>behavior</a> interface is to represent a similar structure.
         <pre class="idl">
-      interface Behavior {
-            attribute String object;
-            attribute String action;
-            attribute Number delay;
-            attribute ClosedCaption cc;
-            attribute Params param;
-            attribute String language;
-      };
+          interface Behavior {
+                attribute String object;
+                attribute String action;
+                attribute double delay;
+                attribute Params param;
+                attribute String language;
+                attribute ClosedCaption cc;
+          };
       </pre>
 
-        <section>
-            <h3><dfn>delay</dfn> attribute</h3>
-            <p>
-                The <a>delay</a> attribute specifies the number of seconds to wait to perform a corresponding action.
-                It is specified in a <code>key:</code><code>value</code> pair where <code>key</code> always
-                takes on the value <code>"delay"</code>, and the <code>value</code> is a <a>number</a>specified by the author.
-            </p>
-            <pre id="delay">
-                "delay": 0
-            </pre>
-        </section>
+      <section>
+        <h3><dfn>object</dfn> attribute</h3>
+        <p>
+          The <a>object</a> is the name of the agent that is performing an action. In grammar, this is often called the <i>subject</i> of a verb. 
+          Examples include "boy", "car", or even abstract nouns like "system". 
+        </p>
+      </section>
 
-        <section>
-            <h3><dfn>language</dfn> attribute</h3>
-            <p>TBD.</p>
-            <p>
-                The <a>language</a> attribute specifies the tongue in which any text, or audio will be communicated in.
-                It is specified in a <code>key:</code><code>value</code> pair where <code>key</code> always
-                takes on the value <code>"language"</code>, and the <code>value</code> is specified by the author.
-            </p>
-            <pre id="language">
-                "language": "English"
-            </pre>
-        </section>
+      <section>
+        <h3><dfn>action</dfn> attribute</h3>
+        <p>
+            Each <a>object</a> affords a set of actions. The <a>action</a> attribute specifies one of those available actions. 
+            For example, if the object is "boy", a possible action may be "say", and if the object is "system", a possible action may be an abstract concept, such as "initialize". 
+        </p>
+      </section>
 
-        <section>
-            <h3><dfn>object</dfn> attribute</h3>
-            <p>
-                The <a>object</a> attribute notifies the target of the corresponding actions. It is specified in a
-                <code>key:</code><code>value</code> pair where <code>key</code> always takes on the value <code>"object"</code>,
-                and the <code>value</code> is specified by the author.
-            </p>
-            <pre id="object">
-                "object": "system"
-            </pre>
-        </section>
+      <section>
+          <h3><dfn>delay</dfn> attribute</h3>
+          <p>
+              The <a>delay</a> attribute specifies the number of seconds to wait to perform a corresponding action.
+              It is specified in a <code>key:</code><code>value</code> pair where <code>key</code> always
+              takes on the value <code>"delay"</code>, and the <code>value</code> is a number specified by the author.
+          </p>
+          <pre id="delay">
+              "delay": 0
+          </pre>
+      </section>
 
-        <section>
-            <h3><dfn>action</dfn> attribute</h3>
-            <p>
-                The <a>action</a> attribute notifies the client of the corresponding actions to be executed. It is
-                specified in a <code>key:</code><code>value</code> pair where <code>key</code> always takes on the value
-                <code>"object"</code>, and the <code>value</code> is specified by the author.
-            </p>
-            <pre id="action">
-                "action": "trigger"
-            </pre>
-        </section>
+      <section>
+          <h3><dfn>language</dfn> attribute</h3>
+          <p>TBD.</p>
+          <p>
+              The <a>language</a> attribute specifies the tongue in which any text, or audio will be communicated in.
+              It is specified in a <code>key:</code><code>value</code> pair where <code>key</code> always
+              takes on the value <code>"language"</code>, and the <code>value</code> is specified by the author.
+          </p>
+          <pre id="language">
+              "language": "English"
+          </pre>
+      </section>
 
-        <section>
-            <h3><dfn>param</dfn> attribute</h3>
-            <p>
-                See <a>Params</a> below.
-            </p>
-        </section>
 
-        <section>
-            <h3><dfn>cc</dfn> attribute</h3>
-            <p>
-                See <a>ClosedCaption</a> below.
-            </p>
-        </section>
+      <section>
+          <h3><dfn>param</dfn> attribute</h3>
+          <p>
+              See <a>Params</a> below.
+          </p>
+      </section>
 
+      <section>
+          <h3><dfn>cc</dfn> attribute</h3>
+          <p>
+              See <a>ClosedCaption</a> below.
+          </p>
+      </section>
     </section>
 
     <section data-dfn-for="ClosedCaption" data-link-for ="ClosedCaption">
@@ -234,7 +232,7 @@
     <section data-dfn-for="Params" data-link-for="Params">
         <h2><dfn>Params</dfn> Interface</h2>
         <pre class="idl">
-      interface Params {
+          interface Params {
             attribute String intent;
             attribute String ssml;
             attribute String name;
@@ -346,21 +344,6 @@
         </figure>
     </section>
 
-    <section data-dfn-for="Number">
-        <h2><code><dfn>Number</dfn></code></h2>
-        <p>
-            A <a>number</a> literal may represent either a positive or negative decimal value.
-        </p>
-        <blockquote>
-	            <pre>
-	                <a>number</a> ::= '-'? ( <a>digit</a>+ ( '.' <a>digit</a>* )? | '.' <a>digit</a>+ )
-                </pre>
-        </blockquote>
-        <figure id="number-railroad">
-            <img src="diagrams/number.png" alt="Number railroad diagram">
-            <figcaption>Number</figcaption>
-        </figure>
-    </section>
 
     <section data-dfn-for="Name">
         <h2><code><dfn>Name</dfn></code></h2>
