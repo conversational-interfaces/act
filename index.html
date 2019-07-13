@@ -3,12 +3,29 @@
 <head>
     <meta charset='utf-8'>
     <title>Act Instruction Format</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
     <script
             src='https://www.w3.org/Tools/respec/respec-w3c-common'
             class='remove'></script>
     <script class='remove'>
       let respecConfig = {
+        localBiblio: {
+            "ISO-639": {
+                title: "ISO-639",
+                href: "https://www.iso.org/standard/22109.html",
+                publisher: "International Organization for Standardization"
+            },
+            "BML": {
+                title: "BML",
+                href: "http://www.mindmakers.org/projects/bml-1-0/wiki",
+                publisher: "BML 1.0 Standard"
+            },
+            "DCMP": {
+                title: "DCMP",
+                href: "https://www.3playmedia.com/resources/popular-topics/closed-captioning/",
+                publisher: "3PlayMedia"
+            }
+
+        },
         wg: "Conversational Interfaces Working Group",
         wgURI: "https://www.w3.org/community/conv/",
         wgPublicList: "public-conv",
@@ -45,14 +62,20 @@
       </p>
     </section>
     <section id='sotd'></section>
+    <section id="conformance"></section>
     <section>
       <h2>Introduction</h2>
-      <p>
-      </p>
+        <p>
+            This specification aims to establish a messaging protocol that allows for finer execution control of verbal
+            and nonverbal agent systems.
+        </p>
     <section>
         <h2>Scope</h2>
-        <h2>Goals and Motivation</h2>
+        <i>This section is informative.</i>
         <p>
+            This document is limited to specifying the syntax and semantics for a <b>behavior definition language.</b>
+            One example application for <a>Act</a> messages would be a mobile device application that requires careful
+            manipulation, execution, and synchronization of <a>Behavior</a>'s such as movements and speech.
         </p>
     </section>
 
@@ -60,15 +83,140 @@
         <h2>Goals and Motivation</h2>
         <i>This section is informative.</i>
         <p>
+            An <a>Act</a> message is <a href="https://www.json.org/">JSON</a> language for controlling the verbal and
+            nonverbal behavior of conversational agents. An <a>Act</a> Message specifies the execution of <a>Behavior</a>
+            objects and any underlying synchronization details.
         </p>
     </section>
 </section>
 
+<!--    {
+        object : system,
+        action : statesync,
+        params : {
+            name : flashcard,
+            context : {
+                "category": "colors",
+                "gamestate" : "1",
+                "target" : "blue"
+            }
+        }
+    }-->
+
 <section>
-    <h2>Act Message Format</h2>
+    <h2>Message Format</h2>
     <i>This section is formative.</i>
-    <p>
-    </p>
+
+    <section data-dfn-for="Messages" data-link-for="Messages">
+        <h2><dfn>Messages</dfn> Interface</h2>
+        <pre class="idl">
+            typedef sequence< Act > actSequence;
+            interface Messages{
+                attribute actSequence acts;
+            };
+        </pre>
+        <section>
+            <h3><dfn>acts</dfn> attribute</h3>
+            <p>
+                In defining the data type for the <a>acts</a> attribute we defined a custom <code><a>typedef</a></code>
+                such that a <a>Sequence</a> of <a>Act</a>'s
+                corresponds to an <a>actSequence</a>. The sequence data type is defined in [[WebIDL-20161215]]. ]
+                The <a>acts</a> attribute then denotes a sequence containing any number of <a>Act</a> messages.
+            </p>
+            <pre class="example">
+                [
+                    <a>Act</a>1,
+                    <a>Act</a>2,
+                    <a>Act</a>3,
+                    ...
+                ]
+            </pre>
+        </section>
+
+    </section>
+
+
+
+    <section data-dfn-for="Act" data-link-for="Act">
+        <h2><dfn>Act</dfn> Interface</h2>
+        <pre class="idl">
+            typedef sequence< Block > blockSequence;
+            interface Act{
+                attribute double version;
+                attribute long id;
+                attribute blockSequence blocks;
+            };
+        </pre>
+
+        <section>
+            <h3><dfn>version</dfn> attribute</h3>
+            <p>
+                The <a>version</a> attribute specifies the release of the <a>Act</a> message format to be used by a
+                double numeric data type.
+            </p>
+            <pre class="example">
+                1.2
+            </pre>
+        </section>
+
+        <section>
+            <h3><dfn>id</dfn> attribute</h3>
+            <p>
+                The <a>id</a> attribute specifies the unique identifying number belonging to the corresponding <a>Act</a>
+                message.
+            </p>
+            <pre class="example">
+                0
+            </pre>
+        </section>
+
+        <section>
+            <h3><dfn>blocks</dfn> attribute</h3>
+            <p>
+                In defining the type for the <a>blocks</a> attribute we defined a custom <a>typedef</a> such that a
+                <a>sequence</a> of <a>Block</a> objects corresponds to a <a>blockSequence</a>. The <a>blocks</a> attribute
+                then specifies a list of <a>Block</a>'s. See <a>Block</a> below.
+            </p>
+            <pre class="example">
+                [
+                    <a>Block</a>1,
+                    <a>Block</a>2,
+                    <a>Block</a>3,
+                    ...
+                ]
+            </pre>
+        </section>
+
+    </section>
+
+    <section data-dfn-for="Block" data-link-for="Block">
+        <h2><dfn>Block</dfn> Interface</h2>
+        <pre class="idl">
+            typedef sequence< Behavior > behaviorSequence;
+            interface Block{
+                attribute behaviorSequence behaviors;
+            };
+        </pre>
+
+        <section>
+            <h3><dfn>behaviors</dfn> attribute</h3>
+            <p>
+                In defining the type for the <a>behaviors</a> attribute we defined a custom <code><a>typedef</a></code>
+                such that a <code><a data-cite="!WebIDL-20161215/#es-sequence">sequence</a></code> of <a>Behavior</a>'s
+                corresponds to <a>behaviorSequence</a>. The <a data-cite="!WebIDL-20161215/#es-sequence">Sequence</a> data type is defined in [[WebIDL-20161215]]. The <a>behaviors</a> attribute
+                then contains any number of the <a>Behavior</a> objects. See <a>Behavior</a> below.
+            </p>
+            <pre class="example">
+                [
+                    <a>Behavior</a>1,
+                    <a>Behavior</a>2,
+                    <a>Behavior</a>3,
+                    ...
+                ]
+            </pre>
+        </section>
+    </section>
+
     <section data-dfn-for="Behavior" data-link-for="Behavior">
         <h2><dfn>Behavior</dfn> Interface</h2>
         The atomic unit that can be immediately realized by a client is called a <a>behavior</a>. 
@@ -76,246 +224,279 @@
         By analyzing the grammar, we find the subject is "boy", the verb is "says", and the direct-object is "hello".
         The intuition behind the <a>behavior</a> interface is to represent a similar structure.
         <pre class="idl">
-          interface Behavior {
+            typedef sequence< String> stringSequence;
+            interface Behavior {
+                attribute long id;
                 attribute String object;
                 attribute String action;
                 attribute double delay;
                 attribute Params param;
-                attribute String language;
-                attribute ClosedCaption cc;
-          };
+                attribute Dictionary start;
+                attribute stringSequence closedCaption;
+            };
       </pre>
+
+        <section>
+            <h3><dfn>id</dfn> attribbute</h3>
+            <p>
+                The <a>id</a> specifies the unique identifier within the containing block. Note that <a>id</a>'s are non
+                unique across different <a>Block</a>'s.
+            </p>
+        </section>
 
       <section>
         <h3><dfn>object</dfn> attribute</h3>
         <p>
-          The <a>object</a> is the name of the agent that is performing an action. In grammar, this is often called the <i>subject</i> of a verb. 
-          Examples include "boy", "car", or even abstract nouns like "system". 
+          The <a>object</a> attribute is the name of the agent that is performing an action. In grammar, this is often called the <i>subject</i> of a verb.
+          Examples include:
         </p>
+          <pre class="example">
+              "boy"
+          </pre>
+          <p>
+              And even abstract nouns such as the following.
+          </p>
+          <pre class="example">
+              "system"
+          </pre>
       </section>
 
       <section>
         <h3><dfn>action</dfn> attribute</h3>
         <p>
             Each <a>object</a> affords a set of actions. The <a>action</a> attribute specifies one of those available actions. 
-            For example, if the object is "boy", a possible action may be "say", and if the object is "system", a possible action may be an abstract concept, such as "initialize". 
+            For example, if the object is "boy", a possible action may look as follows.
         </p>
+          <pre class="example">
+              "say"
+          </pre>
+          <p>
+              And if the object is "system", a possible action may be an abstract concept as follows.
+          </p>
+          <pre class="example">
+              "initialize"
+          </pre>
       </section>
 
       <section>
           <h3><dfn>delay</dfn> attribute</h3>
           <p>
-              The <a>delay</a> attribute specifies the number of seconds to wait to perform a corresponding action.
-              It is specified in a <code>key:</code><code>value</code> pair where <code>key</code> always
-              takes on the value <code>"delay"</code>, and the <code>value</code> is a number specified by the author.
+              The <a>delay</a> attribute specifies the number of seconds to wait to perform a corresponding action through a
+              <code><dfn data-cite="!WebIDL-20161215/#idl-double">double</dfn></code> data type.
           </p>
-          <pre id="delay">
-              "delay": 0
+          <pre class="example">
+              0.0
           </pre>
       </section>
-
-      <section>
-          <h3><dfn>language</dfn> attribute</h3>
-          <p>TBD.</p>
-          <p>
-              The <a>language</a> attribute specifies the tongue in which any text, or audio will be communicated in.
-              It is specified in a <code>key:</code><code>value</code> pair where <code>key</code> always
-              takes on the value <code>"language"</code>, and the <code>value</code> is specified by the author.
-          </p>
-          <pre id="language">
-              "language": "English"
-          </pre>
-      </section>
-
 
       <section>
           <h3><dfn>param</dfn> attribute</h3>
           <p>
-              See <a>Params</a> below.
+              The <a>Params</a> attribute specifies the data-structure containing all data to be received and manipulated
+              by the client. See <a>Params</a> below.
           </p>
       </section>
+
+        <section>
+            <h3><dfn>start</dfn> attribute</h3>
+            <p>
+                The <a>start</a> attribute is an optional <a>Dictionary</a> argument that specifies when the <a>Behavior</a> should begin
+                its execution. It is specified by two <code>key:value</code> pairs where the first pair is denoted by
+                a <code>"trigger":<a>String</a></code> pairing, while the second pairing is denoted by a
+                <code>"id":<a>long</a></code> pairing.
+                The <dfn data-cite="!WebIDL-20161215/#idl-long">long</dfn> data type is defined in [[WebIDL-20161215]].
+            </p>
+            <section>
+                <h3><dfn>trigger</dfn> key</h3>
+                <p>
+                    The <b>trigger</b> attribute specifies the point at which the <a>Behavior</a> corresponding to the
+                    specified <a>id</a> should begin its execution.
+                </p>
+                <pre class="example">
+                    "start"
+                </pre>
+                <pre class="example">
+                    "end"
+                </pre>
+            </section>
+
+            <section>
+                <h3>id key</h3>
+                <p>
+                    The <b>id</b> key specifies the <a>Behavior</a> that will be affected by the corresponding
+                    <a>trigger</a> value.
+                </p>
+                <pre class="example">
+                0
+            </pre>
+            <pre class="example">
+                {
+                    "trigger" : "end",
+                    "id":0
+                }
+            </pre>
+        </section>
 
       <section>
-          <h3><dfn>cc</dfn> attribute</h3>
+          <h3><dfn>closedCaption</dfn> attribute</h3>
+          <!--<pre>
+              typedef String ClosedCaption;
+          </pre>-->
+          <!--<code><code><dfn data-cite="!WebIDL-20161215/#idl-typedefs">typedef</dfn></code>
+              <a>sequence</a>< <dfn data-cite="!WebIDL-20161215/#idl-DOMString">String</dfn> >
+              <code><dfn data-dfn-for="ClosedCaption" data-link-for ="ClosedCaption">ClosedCaption</dfn></code>
+          </code>-->
+
           <p>
-              See <a>ClosedCaption</a> below.
+              In defining the <a>closedCaption</a> attribute, a custom
+              <code><a>typedef</a></code> was used such that a <a>sequence</a> of the <a>String</a>'s corresponds to a
+              <a>ClosedCaption</a> data type. The <dfn data-cite="!WebIDL-20161215/#idl-DOMString">String</dfn> data type
+              defined in [[WebIDL-20161215]] is used. The <a>closedCaption</a> attribute is then specified by a list of
+              <code><dfn data-cite="!DCMP#">DCMP</dfn></code> standard abiding String's, containing the textual
+              representation of any corresponding events within the message.
           </p>
+          <!--https://www.captioningkey.org/speaker_identification.html-->
+          <!--https://www.captioningkey.org/sound_effects.html-->
+          <p>
+              The following example describes the closed captioning for the event where a character named Frog excitedly
+              says 'Hi there!'.
+          </p>
+          <pre class="example">
+              [
+                  "[Frog excited]",
+                  "Hi there!"
+              ]
+          </pre>
+          <p>
+              The following example describes the closed captioning for the event where a character named Pig says
+              'Welcome back!' in a Southern Accent.
+          </p>
+          <pre class="example">
+              [
+                  "[Pig Southern Accent]",
+                  "Welcome back!"
+              ]
+          </pre>
+          <p>
+              The following example shows the closed captioning for the event where three characters are simultaneously
+              cheering.
+          </p>
+          <pre class="example">
+              "[Frog, Pig, Goose cheering]"
+          </pre>
+          <p>
+              The following example shows the closed captioning for the event where a Cow is Mooing.
+          </p>
+          <pre class="example">
+              "[Cow moo's]"
+          </pre>
       </section>
+
+        <!--<section data-dfn-for="Start" data-link-for="Start">
+            <h2><dfn>Start</dfn> Interface</h2>
+            <pre class="idl">
+                typedef Dictionary Start;
+                interface Start {
+                    attribute String trigger;
+                    attribute long id;
+                };
+        </pre>
+            <section>
+                <h3><dfn>trigger</dfn> attribute</h3>
+                <p>
+                    The <a>trigger</a> attribute specifies the point at which the <a>Act</a> message corresponding to the
+                    specified <a>id</a> should begin its execution.
+                </p>
+                <pre class="example">
+                    "start"
+                </pre>
+                <pre class="example">
+                    "end"
+                </pre>
+            </section>
+
+            <section>
+                <h3><dfn>id</dfn> attribute</h3>
+                <p>
+                    The <a>id</a> attribute specifies the <a>Act</a> message that will be affected by the corresponding
+                    <a>trigger</a> value.
+                </p>
+                <pre class="example">
+                0
+            </pre>
+            </section>
+        </section>-->
+
     </section>
-
-    <section data-dfn-for="ClosedCaption" data-link-for ="ClosedCaption">
-        <h2><dfn>ClosedCaption</dfn> Interface</h2>
-        <pre class="idl">
-      interface ClosedCaption {
-            attribute String cc;
-      };
-      </pre>
-        <section>
-            <h3><dfn>cc</dfn> attribute</h3>
-            <p>TBD.</p>
-            <p>
-                The <a>cc</a> attribute specifies the textual representation of any corresponding events within the
-                message. It is specified in a <code>key:</code><code>value</code> pair where <code>key</code> always
-                takes on the value <code>"cc"</code>, and the <code>value</code> is specified by the author.
-            </p>
-            <pre id="cc">
-                "cc": "The Frog says 'Hi there!'"
-            </pre>
-        </section>
-    </section>
-
-<!--    <section data-dfn-for="Language" data-link-for="Language">
-        <h2><dfn>Language</dfn> Interface</h2>
-        <pre class="idl">
-      interface Language {
-            attribute String language;
-      };
-      </pre>
-        <section>
-            <h3><dfn>language</dfn> attribute</h3>
-            <p>TBD.</p>
-            <p>
-                The <a>language</a> attribute specifies the tongue in which any text, or audio will be communicated in.
-                It is specified in a <code>key:</code><code>value</code> pair where <code>key</code> always
-                takes on the value <code>"language"</code>, and the <code>value</code> is specified by the author.
-            </p>
-            <pre id="language">
-                "language": "English"
-            </pre>
-        </section>
-
-    </section>-->
-
-<!--    <section data-dfn-for="Object" data-link-for="Object">
-        <h3><dfn>Object</dfn> Interface</h3>
-        <pre class="idl">
-      interface Object {
-            attribute String object;
-      };
-      </pre>
-
-        <section>
-            <h3><dfn>object</dfn> attribute</h3>
-            <p>
-                The <a>object</a> attribute notifies the target of the corresponding actions. It is specified in a
-                <code>key:</code><code>value</code> pair where <code>key</code> always takes on the value <code>"object"</code>,
-                and the <code>value</code> is specified by the author.
-            </p>
-            <pre id="object">
-                "object": "system"
-            </pre>
-        </section>
-    </section>-->
-
-<!--    <section data-dfn-for="Action">
-        <h2><dfn>Action</dfn> Interface</h2>
-        <pre class="idl">
-      interface Action {
-            attribute String action;
-      };
-      </pre>
-
-        <section>
-            <h3><dfn>action</dfn> attribute</h3>
-            <p>
-                The <a>action</a> attribute notifies the client of the corresponding actions to be executed. It is
-                specified in a <code>key:</code><code>value</code> pair where <code>key</code> always takes on the value
-                <code>"object"</code>, and the <code>value</code> is specified by the author.
-            </p>
-            <pre id="action">
-                "action": "trigger"
-            </pre>
-        </section>
-    </section>-->
-
 
     <section data-dfn-for="Params" data-link-for="Params">
         <h2><dfn>Params</dfn> Interface</h2>
         <pre class="idl">
-          interface Params {
-            attribute String intent;
-            attribute String ssml;
-            attribute String name;
-            attribute String url;
-            attribute Phonemes phoneme;
-          };
+            typedef Dictionary Phonemes;
+            interface Params {
+                attribute String intent;
+                attribute String SSML;
+                attribute String name;
+                attribute String url;
+                attribute Phonemes phonemes;
+                attribute String language;
+                attribute Dictionary context;
+            };
         </pre>
 
         <section>
             <h3><dfn>intent</dfn> attribute</h3>
             <p>
-               The <a>intent</a> attribute specifies what a user is trying to accomplish. It is specified in a <code>key:</code>
-                <code>value</code> pair where <code>key</code> always takes on the value <code>"intent"</code>, and
-                the <code>value</code> is specified by the author.
+               The <a>intent</a> attribute specifies what a user is trying to accomplish. An <a>intent</a> is specified
+                within a string data type.
             </p>
-            <pre id="intent">
-                "intent": "statement.i-can-help"
+            <pre class="example">
+                "statement.i-can-help"
             </pre>
         </section>
 
         <section>
-            <h3><dfn>ssml</dfn> attribute</h3>
+            <h3><dfn>SSML</dfn> attribute</h3>
             <p>
-                The <a>ssml</a> attribute specifies the speech synthesis markup language for the specified intent. It's
-                also specified in a <code>key:</code>
-                <code>value</code> pair where <code>key</code> always takes on the value <code>"SSML"</code> and the
-                <code>value</code> is specified by the author.
+                The <a>SSML</a> attribute specifies the speech synthesis markup language for the specified intent. The
+                <a>SSML</a> is specified within a string data type.
             </p>
-            <pre id="ssml">
-                "SSML": "I can help you with that!"
+            <pre class="example">
+                "I can help you with that!"
             </pre>
         </section>
 
         <section>
             <h2><dfn>name</dfn> attribute</h2>
             <p>
-                The <a>name</a> attribute specifies the name of the audio file to be played. It's
-                also specified in a <code>key:</code><code>value</code> pair where <code>key</code> always takes on
-                the value <code>"name"</code> and the<code>value</code> is specified by the author.
+                The <a>name</a> attribute specifies the name of the audio file to be played.
             </p>
-            <pre id="name">
-                "name": "GO_0020"
+            <pre class="example">
+                "GO_0020"
             </pre>
         </section>
 
         <section>
             <h2><dfn>url</dfn> attribute</h2>
             <p>
-                The <a>url</a> attribute specifies the source lcoation of the audio file to be played. It's
-                also specified in a <code>key:</code><code>value</code> pair where <code>key</code> always takes on
-                the value <code>"url"</code> and the<code>value</code> is specified by the author.
+                The <a>url</a> attribute specifies the source location of the audio file to be played. The <a>url</a>
+                attribute is specified within a string data type.
             </p>
-            <pre id="url">
-                "url": "http://audioURL..."
+            <pre class="example">
+                "http://audioURL..."
             </pre>
         </section>
 
-        <section>
-            <h3><dfn>phoneme</dfn> attribute</h3>
-            <p>
-                See <a>Phonemes</a> below.
-            </p>
-        </section>
 
-    </section>
-
-    <section data-dfn-for="Phonemes" data-link-for="Phonemes">
-        <h2><dfn>Phonemes</dfn> Interface</h2>
-        <pre class="idl">
-      interface Phonemes {
-            attribute String phonemes;
-      };
-      </pre>
 
         <section>
             <h3><dfn>phonemes</dfn> attribute</h3>
             <p>
-                The <a>phonemes</a> attribute contains the phonetic representation of the corresponding audio file to be
-                played. It is specified using a <code>key:</code> <code>value</code> pair where <code>key</code> always
-                takes on the value <code>"phonemes"</code> and the <code>value</code> takes on the form below.
+                The <a>phonemes</a> attribute specifies a <a>Dictionary</a> containing the phonetic translation and total
+                number of frames belonging to the corresponding <a>SSML</a> text. See <a>Phonemes</a> below.
             </p>
-            <pre id="phones">
-                "phonemes":{
+            <pre class="example">
+                {
                     "segments": [
                                     {
                                         "phonemeLabel": "IY",
@@ -326,192 +507,204 @@
                 }
             </pre>
         </section>
+
+        <section>
+            <h3><dfn>language</dfn> attribute</h3>
+            <p>
+                The <a>language</a> attribute specifies the tongue in which any text, or audio will be communicated in. The
+                language is specified by the three letter codec abiding <code><dfn data-cite="!ISO-639#">ISO-639.</dfn></code>
+                The following example shows the three letter codec for the English language.
+            </p>
+            <pre class="example">
+              "eng"
+          </pre>
+        </section>
+
+        <section>
+            <h3><dfn>context</dfn> attribute</h3>
+            <p>
+                The <a>context</a> attribute specifies a <code><dfn data-cite="!WebIDL-20161215/#dfn-dictionary">Dictionary</dfn></code> as defined
+                in [[WebIDL-20161215]]. The dictionary members are specified in <code>key:value</code> pairs where both
+                <code>key</code> and <code>value</code> of of type <a>String</a>.
+            </p>
+
+            <!--    {
+                        object : system,
+                        action : statesync,
+                        params : {
+                            name : flashcard,
+                            context : {
+                                "category": "colors",
+                                "gamestate" : "1",
+                                "target" : "blue"
+                            }
+                        }
+                    }-->
+            <pre class="example">
+                {
+                    "category": "colors",
+                    "gamestate" : "1",
+                    "target" : "blue"
+                }
+            </pre>
+        </section>
+
+
     </section>
 
-    <section data-dfn-for="Digit">
-        <h2><code><dfn>Digit</dfn></code></h2>
-        <p>
-            A <a>digit</a> represents a real valued integer in the range [0-9].
-        </p>
-        <blockquote>
-	            <pre>
-	                <a>digit</a> ::= [0-9]
-                </pre>
-        </blockquote>
-        <figure id="digit-railroad">
-            <img src="diagrams/digit.png" alt="Digit railroad diagram">
-            <figcaption>Digit</figcaption>
-        </figure>
+    <section data-dfn-for="Phonemes" data-link-for="Phonemes">
+        <h2><dfn>Phonemes</dfn> Interface</h2>
+        <pre class="idl">
+            typedef sequence< Dictionary > dictionarySequence;
+            interface Phonemes {
+                attribute dictionarySequence segments;
+                attribute long framecount;
+          };
+        </pre>
+
+        <section>
+            <h3><dfn>segments</dfn> attribute</h3>
+            <p>
+                A custom <a>typedef</a> was defined such that a <a>sequence</a> of <a>Dictionary</a>'s corresponds to a
+                <a>dictionarySequence</a>. Each <a>Dictionary</a> object within the <a>segments</a> attribute is a
+                <a>Dictionary</a> containing a pair of <code>key:value</code> attributes. The first item in each nested
+                <a>Dictionary</a> is specified by a <code><a>String</a>:<a>String</a></code> pairing denoting a phonetic
+                label. The second <a>Dictionary</a> item corresponds to a
+                <code><a>String</a> : <a>double</a></code> pairing
+                corresponding to the start frame of the phonetic label.
+            </p>
+            <pre class="example">
+                {
+                    "phonemeLabel": "IY",
+                    "startFrame": 3
+                }
+            </pre>
+        </section>
+
+        <section>
+            <h3><dfn>framecount</dfn> attribute</h3>
+            <p>
+                The <a>framecount</a> attribute specifies the total number of feature frames of the transcribed SSML
+                text.
+            </p>
+            <pre class="example">
+                202
+            </pre>
+        </section>
     </section>
-
-
-    <section data-dfn-for="Name">
-        <h2><code><dfn>Name</dfn></code></h2>
-        <p>
-            A <a>name</a> is a sequence of characters conforming to those in the XML standard.
-        </p>
-        <blockquote>
-	            <pre>
-	                <a>name</a> ::= [ <a href="http://www.w3.org/TR/xml-names/#NT-NCName">http://www.w3.org/TR/xml-names/#NT-NCName</a> ]
-                </pre>
-        </blockquote>
-        <figure id="name-railroad">
-            <img src="diagrams/name.png" alt="Name rail-road diagram">
-            <figcaption>Name</figcaption>
-        </figure>
-    </section>
-
-    <section data-dfn-for="String">
-        <h2><code><dfn>String</dfn></code></h2>
-        <p>
-            A <a>string</a> literal represents a finite sequence of characters.
-            It is surrounded by starting and ending quotation marks.
-        </p>
-        <blockquote>
-	            <pre>
-	                <a>string</a> :: = '"' <a>name</a> '"'
-                </pre>
-        </blockquote>
-        <figure id="string-railroad">
-            <img src="diagrams/string.png" alt="String railroad diagram">
-            <figcaption>String</figcaption>
-        </figure>
-    </section>
-
-
 </section>
 
-<section>
-    <h2>Examples</h2>
-    <i>This section is informative.</i>
-    <p>
-        The following are examples of objects and their associated behaviors.
-    </p>
-
     <section>
-        <h2><code><dfn>Animate</dfn></code></h2>
+        <h2>Examples</h2>
+        <i>This section is normative.</i>
         <p>
-            An <a>animate</a> payload specifies an object to be animated by the client.
+            The following are examples of objects and their associated behaviors. Note that the specified parameters
+            for each of the following actions are <i>normative</i>.
         </p>
-        <pre class="example" title="Animate Message Payload">
-          {
-            "object": "goose",
-            "action": "animate",
-            "delay": 0,
-            "params": { "name": "FR_Maracas_1" }
-          }
-        </pre>
 
-    </section>
+        <section>
+            <h2><code><dfn>Animate</dfn></code></h2>
+            <p>
+                An <a>animate</a> payload specifies an object to be animated by the client.
+            </p>
+            <pre class="example" title="Animate Message Payload">
+              {
+                "object": "goose",
+                "action": "animate",
+                "delay": 0,
+                "params": { "name": "FR_Maracas_1" }
+              }
+            </pre>
+        </section>
 
-    <section>
-        <h2><code><dfn>Say</dfn></code></h2>
-        <p>A <a>say</a> payload specifies what the desired object should say.</p>
-        <pre class="example" title="Say Message Payload">
-          {
-            "object": "frog",
-            "action": "say",
-            "delay": 0,
-            "params": {
-              "intent": "statement.i-can-help",
-              "SSML": "I can help you with that!",               // utterance previously
-              "name": "GO_0020",                                 // audio file name
-              "url": "http://audioURL...",
-              "phonemes":{
-                              "segments": [
-                                              {
-                                                  "phonemeLabel": "IY",
-                                                  "startFrame": 3
-                                              }
-                                          ],
-                              "framecount": 202
-                         }
-          }
-        </pre>
-    </section>
+        <section>
+            <h2><code><dfn>Say</dfn></code></h2>
+            <p>A <a>say</a> payload specifies what the desired object should say.</p>
+            <pre class="example" title="Say Message Payload">
+              {
+                "object": "frog",
+                "action": "say",
+                "delay": 0,
+                "params": {
+                  "intent": "statement.i-can-help",
+                  "SSML": "I can help you with that!",               // utterance previously
+                  "name": "GO_0020",                                 // audio file name
+                  "url": "http://audioURL...",
+                  "phonemes":{
+                                  "segments": [
+                                                  {
+                                                      "phonemeLabel": "IY",
+                                                      "startFrame": 3
+                                                  }
+                                              ],
+                                  "framecount": 202
+                             }
+              }
+            </pre>
+        </section>
 
-    <section>
-        <h2><code><dfn>Do</dfn></code></h2>
-        <p>A <a>do</a> payload specifies the name of the action the specified target should perform.</p>
-        <pre class="example" title="Do Message Payload">
-          {
-            "object": "goose",
-            "action": "do",
-            "delay": 0,
-            "params": { "name": "walk", "context" : ["pig"]}
-          }
-        </pre>
-    </section>
+        <section>
+            <h2><code><dfn>Do</dfn></code></h2>
+            <p>A <a>do</a> payload specifies the name of the action the specified target should perform.</p>
+            <pre class="example" title="Do Message Payload">
+              {
+                "object": "goose",
+                "action": "do",
+                "delay": 0,
+                "params": { "name": "walk", "context" : ["pig"]}
+              }
+            </pre>
+        </section>
 
-    <section>
-        <h2><code><dfn>Show</dfn></code></h2>
-        <pre class="example" title="Animate Message Payload">
-          TBD
-        </pre>
-    </section>
+        <section>
+            <h2><code><dfn>Play</dfn></code></h2>
+            <p>A <a>play</a> payload specifies the audio clip the client should play.</p>
+            <pre class="example" title="Play Message Payload">
+              {
+                "object": "sound",
+                "action": "play",
+                "delay": 0,
+                "params": { "name": "sxf.bonusround.wav" }
+              }
+            </pre>
+        </section>
 
-    <section>
-        <h2><code><dfn>Play</dfn></code></h2>
-        <p>A <a>play</a> payload specifies the audio clip the client should play.</p>
-        <pre class="example" title="Play Message Payload">
-          {
-            "object": "sound",
-            "action": "play",
-            "delay": 0,
-            "params": { "name": "sxf.bonusround.wav" }
-          }
-        </pre>
-    </section>
+        <section>
+            <h2><code><dfn>Spawn</dfn></code></h2>
+            <p>A <a>spawn</a> payload notifies the client to display the specified object.</p>
+            <pre class="example" title="Spawn Message Payload">
+              {
+                "object": "system",
+                "action": "spawn",
+                "delay": 0,
+                "params": {"name": "frog", "context": ["character2"]}
+              }
+            </pre>
+        </section>
 
-    <section>
-        <h2><code><dfn>Trigger</dfn></code></h2>
-        <p>A <a>trigger</a> payload relays an event to the client.</p>
-        <pre class="example" title="Trigger Message Payload">
-          {
-            "object": "system",
-            "action": "trigger",
-            "delay": 0,
-            "params": { "name": "name", "context": [data] }
-          }
-        </pre>
+        <section>
+            <h2><code><dfn>Destroy</dfn></code></h2>
+            <p>A <a>destroy</a> payload notifies the client to remove the specified object.</p>
+            <pre class="example" title="Destroy Message Payload">
+              {
+                "object": "system",
+                "action": "destroy",
+                "delay": 0,
+                "params": {"name": "frog"}
+              }
+            </pre>
+        </section>
     </section>
-
-    <section>
-        <h2><code><dfn>Spawn</dfn></code></h2>
-        <p>A <a>spawn</a> payload notifies the client to display the specified object.</p>
-        <pre class="example" title="Spawn Message Payload">
-          {
-            "object": "system",
-            "action": "spawn",
-            "delay": 0,
-            "params": {"name": "frog", "context": ["character2"]}
-          }
-        </pre>
-    </section>
-
-    <section>
-        <h2><code><dfn>Destroy</dfn></code></h2>
-        <p>A <a>destroy</a> payload notifies the client to remove the specified object.</p>
-        <pre class="example" title="Destroy Message Payload">
-          {
-            "object": "system",
-            "action": "destroy",
-            "delay": 0,
-            "params": {"name": "frog"}
-          }
-        </pre>
-    </section>
-</section>
 
 <section>
     <h2>Timing Control</h2>
     <i>This section is informative.</i>
     <p>
-        In order to synchronize the messages(especially the "say" and "animate" actions), we propose to use the
-        "message block". A message block is an ordered list of JSON objects, where each object conforms to the "act"
-        message format specified within this document. The server sends sequences of blocks, and the client (eg. Unity)
-        must fully process one block of message before reading the next block. While processing a single block of messages,
-        the client should schedule messages by putting the messages on "tracks"(every action of every object has a track),
+        In order to synchronize the behaviors(especially the "say" and "animate" actions), we propose to use the
+        "message block". A message block is an ordered list of <a>Behavior</a> objects, where each object conforms to the
+        <a>Behavior</a> message format specified within this document. The server sends sequences of blocks, and the client (e.g. Unity)
+        must fully process one block of <a>Behavior</a> before reading the next <a>Block</a>. While processing a single block of <a>Behavior</a>,
+        the client should schedule <a>Behavior</a> by putting them on "tracks"(every action of every object has a track),
         then all the tracks start simultaneously.
     </p>
     <section>
@@ -576,7 +769,7 @@
     <p>
         In this example we show how to sequence actions together.
     </p>
-    <i>Goose waves hands as it starts speaking. After _audio of utterances complets, then the sound effect plays.</i>
+    <i>Goose waves hands as it starts speaking. After audio of utterances completes, then the sound effect plays.</i>
     <pre class="example" title="Sequencing Actions">
         [
           {"object": "goose", "action": "animate", "params": {"name": "wave-hands"}},
@@ -613,7 +806,7 @@
       </pre>
 
     <p>
-        In this example we show how to control different objects in parallel.
+        In the following examples we show how to control different objects in parallel.
     </p>
     <i>Goose and fox cheer together (goose finishes before fox). Goose's jump animation starts right after cheering. Same for Fox.</i>
     <pre class="example" title="Parallel Actions">
@@ -624,18 +817,27 @@
           {"object": "fox", "action": "animate", "params": {"name": "jump"}, "start": {"trigger" : "end", "id":1}}
         ]
       </pre>
+
+    <i>The Goose says 'hello' and waves hand at the Fox. The Fox says 'hi' back (without interrupting the goose's utterance.</i>
+    <pre class="example">
+        [
+          {"object": "goose", "action": "say", "params": {"name": "GO_0020" ,"intent": "greeting"}},
+          {"object": "goose", "action": "animate", "params": {"name": "wave-hands"}},
+          {"object": "fox", "action": "say", "params": {"name": "FX_0020" ,"intent": "greeting"}, "start": {"trigger" : "start", "id":1}, "delay": 0.5}
+        ]
+    </pre>
 </section>
 
 <section>
     <h2>Related Technologies</h2>
     <i>This section is informative.</i>
     <section>
-        <h2><a href="http://www.mindmakers.org/projects/bml-1-0/wiki">BML</a> vs.
-            <a href="https://www.w3.org/2019/04/dmpl/"> DMPL</a> Act Blocks</h2>
+        <h2><a href="http://www.mindmakers.org/projects/bml-1-0/wiki">BML</a> vs. Act Blocks</h2>
         <p>
-            The following BMPl snippet simultaneously starts an animation and a speech utterance.
+            The following <code><dfn data-cite="!BML#">BML</dfn></code> snippet simultaneously starts an
+            animation and a speech utterance.
         </p>
-        <pre id="tc1">
+        <pre class="example">
         &ltbml character="Alice"&gt
             &ltpointing target="blueBox" mode="RIGHT_HAND" start="speech1:start"/&gt
             &ltspeech id="speech1"&gt
@@ -646,16 +848,16 @@
       </pre>
     </section>
 
-    <p>The equivalent behavior can be represented in DMPL Act Messages as follows.</p>
-    <pre id="tc2">
+    <p>The equivalent behavior can be represented in an <a>Act</a> Messages as follows.</p>
+    <pre class="example">
       [
         {"object": "Alice", "action": "do", "params": {"name": "point", "context": ["blueBox", "mode": "RIGHT_HAND"]}},
         {"object": "Alice", "action": "say", "params": {"intent": "look"}}
       ]
     </pre>
 
-    <p>BML documentation recommends using &lt;wait&gt; to align behavior with a condition or an event.</p>
-    <pre id="tc3">
+    <p><a>BML</a> documentation recommends using <code>&ltwait&gt</code> to align behavior with a condition or an event.</p>
+    <pre class="example">
       &ltbml character="Alice"&gt
         &ltgesture id=”g1” type=”point” target=”object1”/&gt
         &ltbody id=”b1” posture=”sit”/&gt
@@ -664,8 +866,8 @@
       &lt/bml&gt
     </pre>
 
-    <p>The &lt;wait&gt; is unnecessary since we can synchronize behaviors by placing them in different blocks.</p>
-    <pre id="tc4">
+    <p>The <code>&ltwait&gt</code> is unnecessary since we can synchronize behaviors by placing them in different blocks.</p>
+    <pre class="example">
       [
         {"object": "Alice", "action": "do", "params": {"name": "point", "context": ["object1"]}},
         {"object": "Alice", "action": "do", "params": {"name": "body", "context": ["sit"]}}
@@ -677,8 +879,8 @@
     </pre>
 
     <p>Multi-party behavior synchronization is limited. It's non-trivial to have two characters say something at the
-        same time as BML.</p>
-    <pre id="tc5">
+        same time as <a>BML</a>.</p>
+    <pre class="example">
       &ltbml character="Alice"&gt
           &ltspeech&gt&lttext&gtYay!&lt/text&gt&lt/speech&gt
       &lt/bml&gt
@@ -688,34 +890,13 @@
       &lt/bml>
     </pre>
 
-    <p>DMPL Act format allows fine-control of multi-party behaviors, with a natural syntax.</p>
-    <pre id="tc6">
-      [
-        {"object": "Alice", "action": "say", "params": {"intent": "yay"}},
-        {"object": "Bob", "action": "say", "params": {"intent": "yay"}}
-      ]
-    </pre>
-
-    <p>DMPL Act format allows fine-control of multi-party behaviors, with a natural syntax.</p>
-    <pre id="tc7">
+    <p>Act message format allows fine-control of multi-party behaviors, with a natural syntax.</p>
+    <pre class="example">
       [
         {"object": "Alice", "action": "say", "params": {"intent": "yay"}},
         {"object": "Bob", "action": "say", "params": {"intent": "yay"}}
       ]
     </pre>
 </section>
-    <section>
-        <h2>References</h2>
-        <i>This section is informative.</i>
-        <p>
-            The primitive data types used and defined within this spec were influenced by <a href="https://bit.ly/2H35fx3">
-            ISO/IEC 11404.</a> The railroad diagrams were genereated using
-            <a href="https://bit.ly/2Tk2EVX">raildroad diagram generator.</a> In Section. 5
-            we refer to <a href="https://www.w3.org/2019/04/dmpl/">Dialogue Manager Programming Language</a> as
-            <a href="https://www.w3.org/2019/04/dmpl/">DMPL</a> and similarly
-            <a href="http://www.mindmakers.org/projects/bml-1-0/wiki">Behavior Markup Language</a> as
-            <a href="http://www.mindmakers.org/projects/bml-1-0/wiki">BML.</a>
-        </p>
-    </section>
 </body>
 </html>
