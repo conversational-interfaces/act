@@ -90,26 +90,13 @@
     </section>
 </section>
 
-<!--    {
-        object : system,
-        action : statesync,
-        params : {
-            name : flashcard,
-            context : {
-                "category": "colors",
-                "gamestate" : "1",
-                "target" : "blue"
-            }
-        }
-    }-->
-
 <section>
     <h2>Message Format</h2>
-    <i>This section is formative.</i>
+    <i>This section is normative.</i>
 
     <section data-dfn-for="Messages" data-link-for="Messages">
         <h2><dfn>Messages</dfn></h2>
-	<a>Messages</a> is a sequence of <a>Act</a> types.
+        <a>Messages</a> is a <a>sequence</a> of <a>Act</a> types.
         <pre class="idl">
 typedef sequence< Act > Messages;
         </pre>
@@ -128,7 +115,7 @@ interface Act {
   attribute Blocks blocks;
 };
         </pre>
-        <a>Blocks</a> is a sequence of <a>Block</a> types.
+        <a>Blocks</a> is a <a>sequence</a> of <a>Block</a> types.
         <pre class="idl">
 typedef sequence< Block > Blocks;
         </pre>
@@ -137,7 +124,7 @@ typedef sequence< Block > Blocks;
             <h3><dfn>version</dfn> attribute</h3>
             <p>
                 The <a>version</a> attribute specifies the release of the <a>Act</a> message format to be used by a
-                double numeric data type.
+                <a>double</a> numeric data type.
             </p>
             <pre class="example">
                 1.2
@@ -158,7 +145,7 @@ typedef sequence< Block > Blocks;
         <section>
             <h3><dfn>blocks</dfn> attribute</h3>
             <p>
-                The <a>blocks</a> attribute specifies a list of <a>Block</a> types.
+                The <a>blocks</a> attribute specifies a <a>sequence</a> of <a>Block</a> types.
             </p>
             <pre class="example">
                 [
@@ -198,24 +185,24 @@ typedef sequence< Behavior > Block;
         By analyzing the grammar, we find the subject is "boy", the verb is "says", and the direct-object is "hello".
         The intuition behind the <a>behavior</a> interface is to represent a similar structure.
         <pre class="idl">
-typedef sequence< String> Strings;
+typedef sequence< String> stringSequence;
 
 [Exposed=Global]
 interface Behavior {
-  attribute long id;
+  attribute long behaviorID;
   attribute String object;
   attribute String action;
   attribute double delay;
   attribute Params param;
   attribute Dictionary start;
-  attribute Strings closedCaption;
+  attribute stringSequence closedCaption;
 };
       </pre>
 
         <section>
-            <h3><dfn>id</dfn> attribbute</h3>
+            <h3><dfn>behaviorID</dfn> attribbute</h3>
             <p>
-                The <a>id</a> specifies the unique identifier within the containing block. Note that <a>id</a>'s are non
+                The <a>behaviorID</a> specifies the unique identifier within the containing <a>Block</a>. Note that <a>behaviorID</a>'s are non
                 unique across different <a>Block</a>'s.
             </p>
         </section>
@@ -295,7 +282,7 @@ interface Behavior {
             </section>
 
             <section>
-                <h3>id key</h3>
+                <h3><dfn>id</dfn> key</h3>
                 <p>
                     The <b>id</b> key specifies the <a>Behavior</a> that will be affected by the corresponding
                     <a>trigger</a> value.
@@ -324,9 +311,9 @@ interface Behavior {
           <p>
               In defining the <a>closedCaption</a> attribute, a custom
               <code><a>typedef</a></code> was used such that a <a>sequence</a> of the <a>String</a>'s corresponds to a
-              <a>ClosedCaption</a> data type. The <dfn data-cite="!WebIDL-20161215/#idl-DOMString">String</dfn> data type
-              defined in [[WebIDL-20161215]] is used. The <a>closedCaption</a> attribute is then specified by a list of
-              <code><dfn data-cite="!DCMP#">DCMP</dfn></code> standard abiding String's, containing the textual
+              <a>stringSequence</a> data type. The <dfn data-cite="!WebIDL-20161215/#idl-DOMString">String</dfn> data type
+              defined in [[WebIDL-20161215]] is used. The <a>closedCaption</a> attribute is then specified by a <a>sequence</a> of
+              <code><dfn data-cite="!DCMP#">DCMP</dfn></code> standard abiding <a>String</a>'s, containing the textual
               representation of any corresponding events within the message.
           </p>
           <!--https://www.captioningkey.org/speaker_identification.html-->
@@ -422,7 +409,7 @@ interface Params {
             <h3><dfn>intent</dfn> attribute</h3>
             <p>
                The <a>intent</a> attribute specifies what a user is trying to accomplish. An <a>intent</a> is specified
-                within a string data type.
+                within a <a>String</a> data type.
             </p>
             <pre class="example">
                 "statement.i-can-help"
@@ -433,7 +420,7 @@ interface Params {
             <h3><dfn>SSML</dfn> attribute</h3>
             <p>
                 The <a>SSML</a> attribute specifies the speech synthesis markup language for the specified intent. The
-                <a>SSML</a> is specified within a string data type.
+                <a>SSML</a> is specified within a <a>String</a> data type.
             </p>
             <pre class="example">
                 "I can help you with that!"
@@ -454,7 +441,7 @@ interface Params {
             <h2><dfn>url</dfn> attribute</h2>
             <p>
                 The <a>url</a> attribute specifies the source location of the audio file to be played. The <a>url</a>
-                attribute is specified within a string data type.
+                attribute is specified within a <a>String</a> data type.
             </p>
             <pre class="example">
                 "http://audioURL..."
@@ -603,8 +590,8 @@ interface Phonemes {
                 "delay": 0,
                 "params": {
                   "intent": "statement.i-can-help",
-                  "SSML": "I can help you with that!",               // utterance previously
-                  "name": "GO_0020",                                 // audio file name
+                  "SSML": "I can help you with that!",
+                  "name": "GO_0020",
                   "url": "http://audioURL...",
                   "phonemes":{
                                   "segments": [
@@ -676,11 +663,11 @@ interface Phonemes {
     <h2>Timing Control</h2>
     <i>This section is informative.</i>
     <p>
-        In order to synchronize the behaviors(especially the "say" and "animate" actions), we propose to use the
-        "message block". A message block is an ordered list of <a>Behavior</a> objects, where each object conforms to the
+        In order to synchronize the <a>Behavior</a>s(especially the "say" and "animate" actions), we propose to use the
+        "message block". A message block is an ordered <a>sequence</a> of <a>Behavior</a> objects, where each object conforms to the
         <a>Behavior</a> message format specified within this document. The server sends sequences of blocks, and the client (e.g. Unity)
-        must fully process one block of <a>Behavior</a> before reading the next <a>Block</a>. While processing a single block of <a>Behavior</a>,
-        the client should schedule <a>Behavior</a> by putting them on "tracks"(every action of every object has a track),
+        must fully process one block of <a>Behavior</a> before reading the next <a>Block</a>. While processing a single <a>Block</a> of <a>Behavior</a>s,
+        the client should schedule <a>Behavior</a>s by putting them on "tracks"(every action of every object has a track),
         then all the tracks start simultaneously.
     </p>
     <section>
