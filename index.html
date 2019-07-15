@@ -84,7 +84,7 @@
         <i>This section is informative.</i>
         <p>
             An <a>Act</a> message is <a href="https://www.json.org/">JSON</a> language for controlling the verbal and
-            nonverbal behavior of conversational agents. An <a>Act</a> Message specifies the execution of <a>Behavior</a>
+            nonverbal behavior of conversational agents. An <a>Act</a> message specifies the execution of <a>Behavior</a>
             objects and any underlying synchronization details.
         </p>
     </section>
@@ -108,46 +108,29 @@
     <i>This section is formative.</i>
 
     <section data-dfn-for="Messages" data-link-for="Messages">
-        <h2><dfn>Messages</dfn> Interface</h2>
+        <h2><dfn>Messages</dfn></h2>
+	<a>Messages</a> is a sequence of <a>Act</a> types.
         <pre class="idl">
-            typedef sequence< Act > actSequence;
-            [Exposed=Window]
-            interface Messages{
-                attribute actSequence acts;
-            };
+typedef sequence< Act > Messages;
         </pre>
-        <section>
-            <h3><dfn>acts</dfn> attribute</h3>
-            <p>
-                In defining the data type for the <a>acts</a> attribute we defined a custom <code><a>typedef</a></code>
-                such that a <a>Sequence</a> of <a>Act</a>'s
-                corresponds to an <a>actSequence</a>. The sequence data type is defined in [[WebIDL-20161215]]. ]
-                The <a>acts</a> attribute then denotes a sequence containing any number of <a>Act</a> messages.
-            </p>
-            <pre class="example">
-                [
-                    <a>Act</a>1,
-                    <a>Act</a>2,
-                    <a>Act</a>3,
-                    ...
-                ]
-            </pre>
-        </section>
-
     </section>
 
 
 
     <section data-dfn-for="Act" data-link-for="Act">
         <h2><dfn>Act</dfn> Interface</h2>
+	An <a>Act</a> type contains the following attributes.
         <pre class="idl">
-            typedef sequence< Block > blockSequence;
-            [Exposed=Window]
-            interface Act{
-                attribute double version;
-                attribute long id;
-                attribute blockSequence blocks;
-            };
+[Exposed=Global]
+interface Act {
+  attribute double version;
+  attribute long id;
+  attribute Blocks blocks;
+};
+        </pre>
+        <a>Blocks</a> is a sequence of <a>Block</a> types.
+        <pre class="idl">
+typedef sequence< Block > Blocks;
         </pre>
 
         <section>
@@ -175,9 +158,7 @@
         <section>
             <h3><dfn>blocks</dfn> attribute</h3>
             <p>
-                In defining the type for the <a>blocks</a> attribute we defined a custom <a>typedef</a> such that a
-                <a>sequence</a> of <a>Block</a> objects corresponds to a <a>blockSequence</a>. The <a>blocks</a> attribute
-                then specifies a list of <a>Block</a>'s. See <a>Block</a> below.
+                The <a>blocks</a> attribute specifies a list of <a>Block</a> types.
             </p>
             <pre class="example">
                 [
@@ -192,23 +173,13 @@
     </section>
 
     <section data-dfn-for="Block" data-link-for="Block">
-        <h2><dfn>Block</dfn> Interface</h2>
+        <h2><dfn>Block</dfn></h2>
         <pre class="idl">
-            typedef sequence< Behavior > behaviorSequence;
-            [Exposed=Window]
-            interface Block{
-                attribute behaviorSequence behaviors;
-            };
+typedef sequence< Behavior > Block;
         </pre>
 
         <section>
             <h3><dfn>behaviors</dfn> attribute</h3>
-            <p>
-                In defining the type for the <a>behaviors</a> attribute we defined a custom <code><a>typedef</a></code>
-                such that a <code><a data-cite="!WebIDL-20161215/#es-sequence">sequence</a></code> of <a>Behavior</a>'s
-                corresponds to <a>behaviorSequence</a>. The <a data-cite="!WebIDL-20161215/#es-sequence">Sequence</a> data type is defined in [[WebIDL-20161215]]. The <a>behaviors</a> attribute
-                then contains any number of the <a>Behavior</a> objects. See <a>Behavior</a> below.
-            </p>
             <pre class="example">
                 [
                     <a>Behavior</a>1,
@@ -227,17 +198,18 @@
         By analyzing the grammar, we find the subject is "boy", the verb is "says", and the direct-object is "hello".
         The intuition behind the <a>behavior</a> interface is to represent a similar structure.
         <pre class="idl">
-            typedef sequence< String> stringSequence;
-            [Exposed=Window]
-            interface Behavior {
-                attribute long id;
-                attribute String object;
-                attribute String action;
-                attribute double delay;
-                attribute Params param;
-                attribute Dictionary start;
-                attribute stringSequence closedCaption;
-            };
+typedef sequence< String> Strings;
+
+[Exposed=Global]
+interface Behavior {
+  attribute long id;
+  attribute String object;
+  attribute String action;
+  attribute double delay;
+  attribute Params param;
+  attribute Dictionary start;
+  attribute Strings closedCaption;
+};
       </pre>
 
         <section>
@@ -305,9 +277,7 @@
             <h3><dfn>start</dfn> attribute</h3>
             <p>
                 The <a>start</a> attribute is an optional <a>Dictionary</a> argument that specifies when the <a>Behavior</a> should begin
-                its execution. It is specified by two <code>key:value</code> pairs where the first pair is denoted by
-                a <code>"trigger":<a>String</a></code> pairing, while the second pairing is denoted by a
-                <code>"id":<a>long</a></code> pairing.
+                its execution, specified by a <code>trigger</code> and an <code>id</code>.
                 The <dfn data-cite="!WebIDL-20161215/#idl-long">long</dfn> data type is defined in [[WebIDL-20161215]].
             </p>
             <section>
@@ -436,16 +406,16 @@
     <section data-dfn-for="Params" data-link-for="Params">
         <h2><dfn>Params</dfn> Interface</h2>
         <pre class="idl">
-            [Exposed=Window]
-            interface Params {
-                attribute String intent;
-                attribute String SSML;
-                attribute String name;
-                attribute String url;
-                attribute Phonemes phonemes;
-                attribute String language;
-                attribute Dictionary context;
-            };
+[Exposed=Global]
+interface Params {
+  attribute String intent;
+  attribute String SSML;
+  attribute String name;
+  attribute String url;
+  attribute Phonemes phonemes;
+  attribute String language;
+  attribute Dictionary context;
+};
         </pre>
 
         <section>
@@ -559,12 +529,13 @@
     <section data-dfn-for="Phonemes" data-link-for="Phonemes">
         <h2><dfn>Phonemes</dfn> Interface</h2>
         <pre class="idl">
-            typedef sequence< Dictionary > dictionarySequence;
-            [Exposed=Window]
-            interface Phonemes {
-                attribute dictionarySequence segments;
-                attribute long framecount;
-          };
+typedef sequence< Dictionary > dictionarySequence;
+    
+[Exposed=Global]
+interface Phonemes {
+  attribute dictionarySequence segments;
+  attribute long framecount;
+};
         </pre>
 
         <section>
