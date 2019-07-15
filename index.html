@@ -111,6 +111,7 @@
         <h2><dfn>Messages</dfn> Interface</h2>
         <pre class="idl">
             typedef sequence< Act > actSequence;
+            [Exposed=Window]
             interface Messages{
                 attribute actSequence acts;
             };
@@ -141,6 +142,7 @@
         <h2><dfn>Act</dfn> Interface</h2>
         <pre class="idl">
             typedef sequence< Block > blockSequence;
+            [Exposed=Window]
             interface Act{
                 attribute double version;
                 attribute long id;
@@ -193,6 +195,7 @@
         <h2><dfn>Block</dfn> Interface</h2>
         <pre class="idl">
             typedef sequence< Behavior > behaviorSequence;
+            [Exposed=Window]
             interface Block{
                 attribute behaviorSequence behaviors;
             };
@@ -225,6 +228,7 @@
         The intuition behind the <a>behavior</a> interface is to represent a similar structure.
         <pre class="idl">
             typedef sequence< String> stringSequence;
+            [Exposed=Window]
             interface Behavior {
                 attribute long id;
                 attribute String object;
@@ -432,7 +436,7 @@
     <section data-dfn-for="Params" data-link-for="Params">
         <h2><dfn>Params</dfn> Interface</h2>
         <pre class="idl">
-            typedef Dictionary Phonemes;
+            [Exposed=Window]
             interface Params {
                 attribute String intent;
                 attribute String SSML;
@@ -492,7 +496,7 @@
         <section>
             <h3><dfn>phonemes</dfn> attribute</h3>
             <p>
-                The <a>phonemes</a> attribute specifies a <a>Dictionary</a> containing the phonetic translation and total
+                The <a>phonemes</a> attribute specifies a <a>Phonemes</a> object containing the phonetic translation and total
                 number of frames belonging to the corresponding <a>SSML</a> text. See <a>Phonemes</a> below.
             </p>
             <pre class="example">
@@ -556,6 +560,7 @@
         <h2><dfn>Phonemes</dfn> Interface</h2>
         <pre class="idl">
             typedef sequence< Dictionary > dictionarySequence;
+            [Exposed=Window]
             interface Phonemes {
                 attribute dictionarySequence segments;
                 attribute long framecount;
