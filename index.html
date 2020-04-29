@@ -4,7 +4,7 @@
 <head>
   <meta charset='utf-8'>
   <title>Act Instruction Format</title>
-  <script src='https://www.w3.org/Tools/respec/respec-w3c-common' class='remove'></script>
+  <script src='https://www.w3.org/Tools/respec/respec-w3c' class='remove' async></script>
   <script class='remove'>
     let respecConfig = {
       localBiblio: {
@@ -60,23 +60,30 @@
       changing scenes or contexts, controlling visual properties, animating characters, and playing audio.
     </p>
   </section>
+
   <section id='sotd'></section>
+
   <section id="conformance"></section>
+
   <section>
     <h2>Introduction</h2>
+
     <p>
-      The message format outlined in this specification allows for fine-control execution 
-      of agents in a virtual or live environment. 
+      The message format outlined in this specification allows for fine-control execution
+      of agents in a virtual or live environment.
       <a href="https://www.json.org/">JSON</a> may be one possible vessel for these types of messages.
     </p>
+
     <section>
       <h2>Scope</h2>
       <i>This section is informative.</i>
+      <p>In progress...</p>
     </section>
 
     <section>
       <h2>Goals and Motivation</h2>
       <i>This section is informative.</i>
+      <p>In progress...</p>
     </section>
   </section>
 
@@ -91,17 +98,16 @@
       By analyzing the grammar, we find the subject is "boy", the verb is "says", and the direct-object is "hello".
       The intuition behind the <a>behavior</a> interface is to represent a similar structure.
       <pre class="idl">
-
-[Exposed]
-interface Behavior {
-  attribute long behaviorID;
-  attribute DOMString subject;
-  attribute DOMString action;
-  attribute double delay;
-  attribute Params param;
-  attribute Dictionary start;
-  attribute SequenceOfStrings closedCaption;
-};
+        [Exposed]
+        interface Behavior {
+          attribute long id;
+          attribute DOMString subject;
+          attribute DOMString action;
+          attribute Params params;
+          attribute double delay;
+          attribute Dictionary start;
+          attribute SequenceOfStrings cc;
+        };
       </pre>
 
       <pre class="idl">
@@ -109,10 +115,10 @@ interface Behavior {
       </pre>
 
       <section>
-        <h3><dfn>behaviorID</dfn> attribbute</h3>
+        <h3><dfn>id</dfn> attribute</h3>
         <p>
-          The <a>behaviorID</a> specifies the unique identifier. Note that
-          <a>behaviorID</a>'s are non unique across different blocks.
+          The <a>id</a> specifies the unique identifier. Note that
+          <a>id</a>'s are non unique across different blocks.
         </p>
       </section>
 
@@ -142,180 +148,34 @@ interface Behavior {
           For example, if the subject is "boy", a possible action may look as follows.
         </p>
         <pre class="example">
-              "say"
-          </pre>
+            "say"
+        </pre>
         <p>
           And if the subject is "system", a possible action may be an abstract concept as follows.
         </p>
         <pre class="example">
-              "initialize"
-          </pre>
+            "initialize"
+        </pre>
       </section>
 
+      
       <section>
-        <h3><dfn>delay</dfn> attribute</h3>
-        <p>
-          The <a>delay</a> attribute specifies the number of seconds to wait to perform a corresponding action through a
-          <code><dfn data-cite="!WebIDL-1/#idl-double">double</dfn></code> data type.
-        </p>
-        <pre class="example">
-              0.0
-          </pre>
-      </section>
-
-      <section>
-        <h3><dfn>param</dfn> attribute</h3>
+        <h3><dfn>params</dfn> attribute</h3>
         <p>
           The <a>Params</a> attribute specifies the data-structure containing all data to be received and manipulated
           by the client. See <a>Params</a> below.
         </p>
-      </section>
-
-      <section>
-        <h3><dfn>start</dfn> attribute</h3>
-        <p>
-          The <a>start</a> attribute is an optional <a>Dictionary</a> argument that specifies when the <a>Behavior</a>
-          should begin
-          its execution, specified by a <code>trigger</code> and an <code>id</code>.
-          The <dfn data-cite="!WebIDL-1/#idl-long">long</dfn> data type is defined in [[WebIDL-1]].
-        </p>
-        <section>
-          <h3><dfn>trigger</dfn> key</h3>
-          <p>
-            The <b>trigger</b> attribute specifies the point at which the <a>Behavior</a> corresponding to the
-            specified <a>id</a> should begin its execution.
-          </p>
-          <pre class="example">
-                    "start"
-                </pre>
-          <pre class="example">
-                    "end"
-                </pre>
-        </section>
-
-        <section>
-          <h3><dfn>id</dfn> key</h3>
-          <p>
-            The <b>id</b> key specifies the <a>Behavior</a> that will be affected by the corresponding
-            <a>trigger</a> value.
-          </p>
-          <pre class="example">
-                0
-            </pre>
-          <pre class="example">
-                {
-                    "trigger" : "end",
-                    "id":0
-                }
-            </pre>
-        </section>
-
-        <section>
-          <h3><dfn>closedCaption</dfn> attribute</h3>
-          <!--<pre>
-              typedef String ClosedCaption;
-          </pre>-->
-          <!--<code><code><dfn data-cite="!WebIDL-20161215/#idl-typedefs">typedef</dfn></code>
-              <a>sequence</a>< <dfn data-cite="!WebIDL-20161215/#idl-DOMString">String</dfn> >
-              <code><dfn data-dfn-for="ClosedCaption" data-link-for ="ClosedCaption">ClosedCaption</dfn></code>
-          </code>-->
-
-          <p>
-            In defining the <a>closedCaption</a> attribute, a custom
-            <code><a>typedef</a></code> was used such that a <a>sequence</a> of the <a>String</a>'s corresponds to a
-            <a>SequenceOfStrings</a> data type. The <dfn data-cite="!WebIDL-1/#idl-DOMString">String</dfn> data type
-            defined in [[WebIDL-1]] is used. The <a>closedCaption</a> attribute is then specified by a
-            <a>sequence</a> of
-            <code><dfn data-cite="!DCMP#">DCMP</dfn></code> standard abiding <a>String</a>'s, containing the textual
-            representation of any corresponding events within the message.
-          </p>
-          <!--https://www.captioningkey.org/speaker_identification.html-->
-          <!--https://www.captioningkey.org/sound_effects.html-->
-          <p>
-            The following example describes the closed captioning for the event where a character named Frog excitedly
-            says 'Hi there!'.
-          </p>
-          <pre class="example">
-              [
-                  "[Frog excited]",
-                  "Hi there!"
-              ]
-          </pre>
-          <p>
-            The following example describes the closed captioning for the event where a character named Pig says
-            'Welcome back!' in a Southern Accent.
-          </p>
-          <pre class="example">
-              [
-                  "[Pig Southern Accent]",
-                  "Welcome back!"
-              ]
-          </pre>
-          <p>
-            The following example shows the closed captioning for the event where three characters are simultaneously
-            cheering.
-          </p>
-          <pre class="example">
-              "[Frog, Pig, Goose cheering]"
-          </pre>
-          <p>
-            The following example shows the closed captioning for the event where a Cow is Mooing.
-          </p>
-          <pre class="example">
-              "[Cow moo's]"
-          </pre>
-        </section>
-
-        <!--<section data-dfn-for="Start" data-link-for="Start">
-            <h2><dfn>Start</dfn> Interface</h2>
-            <pre class="idl">
-                typedef Dictionary Start;
-                interface Start {
-                    attribute String trigger;
-                    attribute long id;
-                };
-        </pre>
-            <section>
-                <h3><dfn>trigger</dfn> attribute</h3>
-                <p>
-                    The <a>trigger</a> attribute specifies the point at which the <a>Act</a> message corresponding to the
-                    specified <a>id</a> should begin its execution.
-                </p>
-                <pre class="example">
-                    "start"
-                </pre>
-                <pre class="example">
-                    "end"
-                </pre>
-            </section>
-
-            <section>
-                <h3><dfn>id</dfn> attribute</h3>
-                <p>
-                    The <a>id</a> attribute specifies the <a>Act</a> message that will be affected by the corresponding
-                    <a>trigger</a> value.
-                </p>
-                <pre class="example">
-                0
-            </pre>
-            </section>
-        </section>-->
-
-      </section>
-
-      <section data-dfn-for="Params" data-link-for="Params">
-        <h2><dfn>Params</dfn> Interface</h2>
         <pre class="idl">
-[Exposed]
-interface Params {
-  attribute String intent;
-  attribute String ssml;
-  attribute String name;
-  attribute String url;
-  attribute Phonemes phonemes;
-  attribute String language;
-  attribute Dictionary context;
-};
+          [Exposed]
+          interface Params {
+            attribute String intent;
+            attribute String ssml;
+            attribute String name;
+            attribute String url;
+            attribute Phonemes phonemes;
+            attribute String language;
+            attribute Dictionary context;
+          };
         </pre>
 
         <section>
@@ -361,28 +221,6 @@ interface Params {
             </pre>
         </section>
 
-
-
-        <section>
-          <h3><dfn>phonemes</dfn> attribute</h3>
-          <p>
-            The <a>phonemes</a> attribute specifies a <a>Phonemes</a> object containing the phonetic translation and
-            total
-            number of frames belonging to the corresponding <a>ssml</a> text. See <a>Phonemes</a> below.
-          </p>
-          <pre class="example">
-            {
-              "segments": [
-                {
-                  "phonemeLabel": "IY",
-                  "startFrame": 3
-                }
-              ],
-              "framecount": 202
-            }
-          </pre>
-        </section>
-
         <section>
           <h3><dfn>language</dfn> attribute</h3>
           <p>
@@ -397,6 +235,70 @@ interface Params {
         </section>
 
         <section>
+          <h3><dfn>phonemes</dfn> attribute</h3>
+          <p>
+            The <a>phonemes</a> attribute is an object containing the phonetic translation and
+            total
+            number of frames belonging to the corresponding <a>ssml</a> text. See <a>Phonemes</a> below.
+          </p>
+          <pre class="example">
+            {
+              "segments": [
+                {
+                  "phonemeLabel": "IY",
+                  "startFrame": 3
+                }
+              ],
+              "framecount": 202
+            }
+          </pre>
+
+          <pre class="idl">
+            typedef sequence< Dictionary > dictionarySequence;
+                
+            [Exposed]
+            interface Phonemes {
+              attribute dictionarySequence segments;
+              attribute long framecount;
+            };
+          </pre>
+  
+          <section>
+            <h3><dfn>segments</dfn> attribute</h3>
+            <p>
+              A custom <a>typedef</a> was defined such that a <a>sequence</a> of <a>Dictionary</a>'s corresponds to a
+              <a>dictionarySequence</a>. Each <a>Dictionary</a> object within the <a>segments</a> attribute is a
+              <a>Dictionary</a> containing a pair of <code>key:value</code> attributes. The first item in each nested
+              <a>Dictionary</a> is specified by a <code><a>String</a>:<a>String</a></code> pairing denoting a phonetic
+              label. The second <a>Dictionary</a> item corresponds to a
+              <code><a>String</a> : <a>double</a></code> pairing
+              corresponding to the start frame of the phonetic label.
+            </p>
+            <pre class="example">
+              {
+                  "phonemeLabel": "IY",
+                  "startFrame": 3
+              }
+            </pre>
+          </section>
+  
+          <section>
+            <h3><dfn>framecount</dfn> attribute</h3>
+            <p>
+              The <a>framecount</a> attribute specifies the total number of feature frames of the transcribed ssml
+              text.
+            </p>
+            <pre class="example">
+                  202
+              </pre>
+          </section>
+        </section>
+
+        </section>
+
+        
+
+        <section>
           <h3><dfn>context</dfn> attribute</h3>
           <p>
             The <a>context</a> attribute specifies a
@@ -405,507 +307,599 @@ interface Params {
             <code>key</code> and <code>value</code> of of type <a>String</a>.
           </p>
 
-          <!--    {
-                        object : system,
-                        action : statesync,
-                        params : {
-                            name : flashcard,
-                            context : {
-                                "category": "colors",
-                                "gamestate" : "1",
-                                "target" : "blue"
-                            }
-                        }
-                    }-->
           <pre class="example">
-                {
-                    "category": "colors",
-                    "gamestate" : "1",
-                    "target" : "blue"
-                }
-            </pre>
+            {
+              "category": "colors",
+              "gamestate" : "1",
+              "target" : "blue"
+            }
+          </pre>
         </section>
 
 
-      </section>
-
-      <section data-dfn-for="Phonemes" data-link-for="Phonemes">
-        <h2><dfn>Phonemes</dfn> Interface</h2>
-        <pre class="idl">
-typedef sequence< Dictionary > dictionarySequence;
-    
-[Exposed]
-interface Phonemes {
-  attribute dictionarySequence segments;
-  attribute long framecount;
-};
-        </pre>
-
         <section>
-          <h3><dfn>segments</dfn> attribute</h3>
+          <h3><dfn>delay</dfn> attribute</h3>
           <p>
-            A custom <a>typedef</a> was defined such that a <a>sequence</a> of <a>Dictionary</a>'s corresponds to a
-            <a>dictionarySequence</a>. Each <a>Dictionary</a> object within the <a>segments</a> attribute is a
-            <a>Dictionary</a> containing a pair of <code>key:value</code> attributes. The first item in each nested
-            <a>Dictionary</a> is specified by a <code><a>String</a>:<a>String</a></code> pairing denoting a phonetic
-            label. The second <a>Dictionary</a> item corresponds to a
-            <code><a>String</a> : <a>double</a></code> pairing
-            corresponding to the start frame of the phonetic label.
+            The <a>delay</a> attribute specifies the number of seconds to wait to perform a corresponding action through a
+            <code><dfn data-cite="!WebIDL-1/#idl-double">double</dfn></code> data type.
           </p>
           <pre class="example">
-                {
-                    "phonemeLabel": "IY",
-                    "startFrame": 3
-                }
+                0.0
             </pre>
         </section>
 
         <section>
-          <h3><dfn>framecount</dfn> attribute</h3>
+          <h3><dfn>start</dfn> attribute</h3>
           <p>
-            The <a>framecount</a> attribute specifies the total number of feature frames of the transcribed ssml
-            text.
+            The <a>start</a> attribute is an optional <a>Dictionary</a> argument that specifies when the <a>Behavior</a>
+            should begin
+            its execution, specified by a <code>trigger</code> and an <code>id</code>.
+          </p>
+          <section>
+            <h3><dfn>trigger</dfn> key</h3>
+            <p>
+              The <b>trigger</b> attribute specifies the point at which the <a>Behavior</a> corresponding to the
+              specified <a>id</a> should begin its execution. The trigger value may be <code>"start"</code> or <code>"end"</code>.
+            </p>
+          </section>
+  
+          <section>
+            <h3><a>id</a> key</h3>
+            <p>
+              The <b>id</b> key specifies the <a>Behavior</a> that will be affected by the corresponding
+              <a>trigger</a> value.
+            </p>
+            <pre class="example">
+              0
+            </pre>
+            <pre class="example">
+              {
+                  "trigger" : "end",
+                  "id": 0
+              }
+              </pre>
+          </section>
+        </section>
+
+        <section>
+          <h3><dfn>cc</dfn> attribute</h3>
+          <p>
+            In defining the <a>cc</a> attribute, a custom
+            <code><a>typedef</a></code> was used such that a <a>sequence</a> of the <a>String</a>'s corresponds to a
+            <a>SequenceOfStrings</a> data type. The <dfn data-cite="!WebIDL-1/#idl-DOMString">String</dfn> data type
+            defined in [[WebIDL-1]] is used. The <a>cc</a> attribute is then specified by a
+            <a>sequence</a> of
+            <code><dfn data-cite="!DCMP#">DCMP</dfn></code> standard abiding <a>String</a>'s, containing the textual
+            representation of any corresponding events within the message.
+          </p>
+          <!--https://www.captioningkey.org/speaker_identification.html-->
+          <!--https://www.captioningkey.org/sound_effects.html-->
+          <p>
+            The following example describes the closed captioning for the event where a character named Frog excitedly
+            says 'Hi there!'.
           </p>
           <pre class="example">
-                202
-            </pre>
+              [
+                  "[Frog excited]",
+                  "Hi there!"
+              ]
+          </pre>
+          <p>
+            The following example describes the closed captioning for the event where a character named Pig says
+            'Welcome back!' in a Southern Accent.
+          </p>
+          <pre class="example">
+              [
+                  "[Pig Southern Accent]",
+                  "Welcome back!"
+              ]
+          </pre>
+          <p>
+            The following example shows the closed captioning for the event where three characters are simultaneously
+            cheering.
+          </p>
+          <pre class="example">
+              "[Frog, Pig, Goose cheering]"
+          </pre>
+          <p>
+            The following example shows the closed captioning for the event where a Cow is Mooing.
+          </p>
+          <pre class="example">
+              "[Cow moo's]"
+          </pre>
         </section>
-      </section>
+  
     </section>
 
+  </section>
+
+  <section>
+    <h2>Blocks</h2>
+    <i>This section is informative.</i>
+    <p>
+      In order to synchronize behavior (especially the "say" and "animate" actions), we propose to use the
+      "message block". A message block is an ordered <a>sequence</a> of <a>Behavior</a> objects, where each object
+      conforms to the
+      <a>Behavior</a> message format specified within this document. The server sends sequences of blocks, and the
+      client (e.g. Unity)
+      must fully process one block of <a>Behavior</a> before reading the next block. While processing a single
+      block of <a>Behavior</a>s,
+      the client should schedule <a>Behavior</a>s by putting them on "tracks"(every action of every object has a
+      track),
+      then all the tracks start simultaneously.
+    </p>
     <section>
       <h2>Examples</h2>
-      <i>This section is normative.</i>
-      <p>
-        The following are examples of objects and their associated behaviors. Note that the specified parameters
-        for each of the following actions are <i>normative</i>.
-      </p>
-
-      <section>
-        <h2><code><dfn>Animate</dfn></code></h2>
-        <p>
-          An <a>animate</a> payload specifies an object to be animated by the client.
-        </p>
-        <pre class="example" title="Animate Message Payload">
-              {
-                "subject": "goose",
-                "action": "animate",
-                "delay": 0,
-                "params": { "name": "FR_Maracas_1" }
-              }
-            </pre>
-      </section>
-
-      <section>
-        <h2><code><dfn>Say</dfn></code></h2>
-        <p>A <a>say</a> payload specifies what the desired subject should say.</p>
-        <pre class="example" title="Say Message Payload">
-              {
-                "subject": "frog",
-                "action": "say",
-                "delay": 0,
-                "params": {
-                  "intent": "statement.i-can-help",
-                  "ssml": "I can help you with that!",
-                  "name": "GO_0020",
-                  "url": "http://audioURL...",
-                  "phonemes": {
-                    "segments": [
-                      {
-                        "phonemeLabel": "IY",
-                        "startFrame": 3
-                      }
-                    ],
-                    "framecount": 202
-                  }
-                }
-              }
-            </pre>
-      </section>
-
-      <section>
-        <h2><code><dfn>Do</dfn></code></h2>
-        <p>A <a>do</a> payload specifies the name of the action the specified target should perform.</p>
-        <pre class="example" title="Do Message Payload">
-              {
-                "subject": "goose",
-                "action": "do",
-                "delay": 0,
-                "params": { "name": "walk", "context" : ["pig"]}
-              }
-            </pre>
-      </section>
-
-      <section>
-        <h2><code><dfn>Play</dfn></code></h2>
-        <p>A <a>play</a> payload specifies the audio clip the client should play.</p>
-        <pre class="example" title="Play Message Payload">
-              {
-                "subject": "sound",
-                "action": "play",
-                "delay": 0,
-                "params": { "name": "sxf.bonusround.wav" }
-              }
-            </pre>
-      </section>
-
-      <section>
-        <h2><code><dfn>Spawn</dfn></code></h2>
-        <p>A <a>spawn</a> payload notifies the client to display the specified object.</p>
-        <pre class="example" title="Spawn Message Payload">
-              {
-                "subject": "system",
-                "action": "spawn",
-                "delay": 0,
-                "params": {"name": "frog", "context": ["character2"]}
-              }
-            </pre>
-      </section>
-
-      <section>
-        <h2><code><dfn>Destroy</dfn></code></h2>
-        <p>A <a>destroy</a> payload notifies the client to remove the specified object.</p>
-        <pre class="example" title="Destroy Message Payload">
-              {
-                "subject": "system",
-                "action": "destroy",
-                "delay": 0,
-                "params": {"name": "frog"}
-              }
-            </pre>
-      </section>
-    </section>
-
-    <section>
-      <h2>Timing Control</h2>
       <i>This section is informative.</i>
+
       <p>
-        In order to synchronize the <a>Behavior</a>s(especially the "say" and "animate" actions), we propose to use the
-        "message block". A message block is an ordered <a>sequence</a> of <a>Behavior</a> objects, where each object
-        conforms to the
-        <a>Behavior</a> message format specified within this document. The server sends sequences of blocks, and the
-        client (e.g. Unity)
-        must fully process one block of <a>Behavior</a> before reading the next block. While processing a single
-        block of <a>Behavior</a>s,
-        the client should schedule <a>Behavior</a>s by putting them on "tracks"(every action of every object has a
-        track),
-        then all the tracks start simultaneously.
+        Suppose a humanoid agent named <code>goose</code> stands near a landmark labelled <code>Landmark_1</code>.
       </p>
-      <section>
-        <h2>Examples</h2>
-        <i>This section is informative.</i>
-
-        <p>
-          Suppose a humanoid agent named <code>goose</code> stands near a landmark labelled <code>Landmark_1</code>.
-        </p>
-        <p><i>Goose walks towards a landmark named <code>Landmark_1</code></i>.</p>
-        <pre class="example" title="Walk towards an object">
-          [
-            {
-              "subject": "goose",
-              "action": "do",
-              "params": {
-                "name": "walk",
-                "context": ["Landmark_1"]
-              }
+      <p><i>Goose walks towards a landmark named <code>Landmark_1</code></i>.</p>
+      <pre class="example" title="Walk towards an object">
+        [
+          {
+            "subject": "goose",
+            "action": "do",
+            "params": {
+              "name": "walk",
+              "context": ["Landmark_1"]
             }
-          ]
-        </pre>
+          }
+        ]
+      </pre>
 
-        <p><i>Goose points at a landmark named <code>Landmark_1</code>.</i></p>
-        <pre class="example" title="Point at an object indefinitely">
-          [
-            {
-              "object": "goose",
-              "action": "do",
-              "params": {
-                "name": "point",
-                "context": ["Landmark_1", "enabled"]
-              }
+      <p><i>Goose points at a landmark named <code>Landmark_1</code>.</i></p>
+      <pre class="example" title="Point at an object indefinitely">
+        [
+          {
+            "object": "goose",
+            "action": "do",
+            "params": {
+              "name": "point",
+              "context": ["Landmark_1", "enabled"]
             }
-          ]
-        </pre>
+          }
+        ]
+      </pre>
 
-        <p><i>Goose points at a landmark named <code>Landmark_1</code>, and stops after 2 seconds.</i></p>
-        <pre class="example" title="Point for 2 seconds">
-          [
-            {
-              "object": "goose",
-              "action": "do",
-              "params": {
-                "name": "point",
-                "context": ["Landmark_1", "enable"]
-              }
+      <p><i>Goose points at a landmark named <code>Landmark_1</code>, and stops after 2 seconds.</i></p>
+      <pre class="example" title="Point for 2 seconds">
+        [
+          {
+            "object": "goose",
+            "action": "do",
+            "params": {
+              "name": "point",
+              "context": ["Landmark_1", "enable"]
+            }
+          },
+          {
+            "object": "goose",
+            "action": "do",
+            "params": {
+              "name": "point",
+              "context": ["Landmark_1", "disable"]
             },
-            {
-              "object": "goose",
-              "action": "do",
-              "params": {
-                "name": "point",
-                "context": ["Landmark_1", "disable"]
-              },
-              "delay": 2.0
-            }
-          ]
-        </pre>
+            "delay": 2.0
+          }
+        ]
+      </pre>
 
-        <p><i>Goose looks at a landmark named <code>Landmark_1</code>.</i></p>
-        <pre class="example" title="Look at an object indefinitely">
-          [
-            {
-              "object": "goose",
-              "action": "do",
-              "params": {
-                "name": "look",
-                "context": ["Landmark_1", "enable"]
-              }
+      <p><i>Goose looks at a landmark named <code>Landmark_1</code>.</i></p>
+      <pre class="example" title="Look at an object indefinitely">
+        [
+          {
+            "object": "goose",
+            "action": "do",
+            "params": {
+              "name": "look",
+              "context": ["Landmark_1", "enable"]
             }
-          ]
-        </pre>
+          }
+        ]
+      </pre>
 
-        <p><i>Goose looks at a landmark named <code>Landmark_1</code>, and stops after 2 seconds.</i></p>
-        <pre class="example" title="Look for 2 seconds">
-          [
-            {
-              "object": "goose",
-              "action": "do",
-              "params": {
-                "name": "look",
-                "context": ["Landmark_1", "enable"]
-              }
+      <p><i>Goose looks at a landmark named <code>Landmark_1</code>, and stops after 2 seconds.</i></p>
+      <pre class="example" title="Look for 2 seconds">
+        [
+          {
+            "object": "goose",
+            "action": "do",
+            "params": {
+              "name": "look",
+              "context": ["Landmark_1", "enable"]
+            }
+          },
+          {
+            "object": "goose",
+            "action": "do",
+            "params": {
+              "name": "look",
+              "context": ["Landmark_1", "disable"]
             },
-            {
-              "object": "goose",
-              "action": "do",
-              "params": {
-                "name": "look",
-                "context": ["Landmark_1", "disable"]
-              },
-              "delay": 2.0
-            }
-          ]
-        </pre>
+            "delay": 2.0
+          }
+        ]
+      </pre>
 
-        <p><i>Goose turns body to a landmark named <code>Landmark_1</code>.</i></p>
-        <pre class="example" title="Turn to an object">
-          [
-            {
-              "object": "goose",
-              "action": "do",
-              "params": {
-                "name": "turn",
-                "context": ["Landmark_1"]
-              }
+      <p><i>Goose turns body to a landmark named <code>Landmark_1</code>.</i></p>
+      <pre class="example" title="Turn to an object">
+        [
+          {
+            "object": "goose",
+            "action": "do",
+            "params": {
+              "name": "turn",
+              "context": ["Landmark_1"]
             }
-          ]
-        </pre>
+          }
+        ]
+      </pre>
 
-        <p><i>Goose walks towards a landmark named <code>Landmark_1</code> while pointing at it.</i></p>
-        <pre class="example" title="Point and walk">
-          [
-            {
-              "object": "goose",
-              "action": "do",
-              "params": {
-                "name": "point",
-                "context": ["Landmark_1", "enable"]
-              }
-            },
-            {
-              "object": "goose",
-              "action": "walk",
-              "params": {
-                "name": "point",
-                "context": ["Landmark_1"]
-              }
+      <p><i>Goose walks towards a landmark named <code>Landmark_1</code> while pointing at it.</i></p>
+      <pre class="example" title="Point and walk">
+        [
+          {
+            "object": "goose",
+            "action": "do",
+            "params": {
+              "name": "point",
+              "context": ["Landmark_1", "enable"]
             }
-          ]
-        </pre>
-
-        <p><i>Goose walks towards a landmark named <code>Landmark_1</code> while pointing at it, then stops pointing.</i></p>
-        <pre class="example" title="Point and walk">
-          [
-            {
-              "object": "goose",
-              "action": "do",
-              "params": {
-                "name": "point",
-                "context": ["Landmark_1", "enable"]
-              }
-            },
-            {
-              "object": "goose",
-              "action": "walk",
-              "params": {
-                "name": "point",
-                "context": ["Landmark_1"]
-              }
+          },
+          {
+            "object": "goose",
+            "action": "walk",
+            "params": {
+              "name": "point",
+              "context": ["Landmark_1"]
             }
-          ]
+          }
+        ]
+      </pre>
 
-          [
-            {
-              "object": "goose",
-              "action": "do",
-              "params": {
-                "name": "point",
-                "context": ["Landmark_1", "disable"]
-              }
+      <p><i>Goose walks towards a landmark named <code>Landmark_1</code> while pointing at it, then stops
+          pointing.</i></p>
+      <pre class="example" title="Point and walk">
+        [
+          {
+            "object": "goose",
+            "action": "do",
+            "params": {
+              "name": "point",
+              "context": ["Landmark_1", "enable"]
             }
-          ]
-        </pre>
-
-        <p>
-          In the following example we examine events A and B: we want to enforce that event B can't start
-          until event A has started.
-        </p>
-        <p><i>Right when Goose starts speaking, Fox jumps.</i></p>
-        <pre class="example" title="Start-to-Start">
-          [
-            {
-              "subject": "goose",
-              "action": "say",
-              "params": {"name": "GO_0020" , "ssml": "I can help you with that!"}
-            },
-            {
-              "subject": "fox",
-              "action": "animate",
-              "params": {"name": "FX_Jump"}
+          },
+          {
+            "object": "goose",
+            "action": "walk",
+            "params": {
+              "name": "point",
+              "context": ["Landmark_1"]
             }
-          ]
-        </pre>
+          }
+        ]
 
-        <p>
-          In this example we want to run the statements in a particular sequence. Specifically, B can't start until
-          A has finished. In order to achieve the desired order, we place each behavior in a separate block.
-        </p>
-        <i>Only when Goose is done speaking, is the Fox able to jump.</i>
-        <pre class="example" title="Finish-to-Start">
-          [
-            {
-              "subject": "goose",
-              "action": "say",
-              "params": {"name": "GO_0020" ,"intent": "statement.i-can-help","ssml": "I can help you with that!"}
+        [
+          {
+            "object": "goose",
+            "action": "do",
+            "params": {
+              "name": "point",
+              "context": ["Landmark_1", "disable"]
             }
-          ]
+          }
+        ]
+      </pre>
 
-          [
-            {
-              "subject": "fox",
-              "action": "animate",
-              "params": {"name": "FX_Jump"}
-            }
-          ]
-        </pre>
+      <p>
+        In the following example we examine events A and B: we want to enforce that event B can't start
+        until event A has started.
+      </p>
+      <p><i>Right when Goose starts speaking, Fox jumps.</i></p>
+      <pre class="example" title="Start-to-Start">
+        [
+          {
+            "subject": "goose",
+            "action": "say",
+            "params": {"name": "GO_0020" , "ssml": "I can help you with that!"}
+          },
+          {
+            "subject": "fox",
+            "action": "animate",
+            "params": {"name": "FX_Jump"}
+          }
+        ]
+      </pre>
 
-        <p>
-          In this example we show how to sequence actions together.
-        </p>
-        <i>Goose waves hands as it starts speaking. After hand-waving animation completes, sound effect plays.</i>
-        <pre class="example" title="Sequencing Actions">
-          [
-            {"id": "0", "subject": "goose", "action": "animate", "params": {"name": "wave-hands"}},
-            {"subject": "goose", "action": "say", "params": {"name": "GO_0020" ,"intent": "greeting"}},
-            {"subject": "sound", "action": "play", "params": {"name": "sfx.boom" ,"intent": "sfx.boom"}, "start": {"trigger" : "end", "id":0}}
-          ]
-        </pre>
-      </section>
+      <p>
+        In this example we want to run the statements in a particular sequence. Specifically, B can't start until
+        A has finished. In order to achieve the desired order, we place each behavior in a separate block.
+      </p>
+      <i>Only when Goose is done speaking, is the Fox able to jump.</i>
+      <pre class="example" title="Finish-to-Start">
+        [
+          {
+            "subject": "goose",
+            "action": "say",
+            "params": {"name": "GO_0020" ,"intent": "statement.i-can-help","ssml": "I can help you with that!"}
+          }
+        ]
+
+        [
+          {
+            "subject": "fox",
+            "action": "animate",
+            "params": {"name": "FX_Jump"}
+          }
+        ]
+      </pre>
 
       <p>
         In this example we show how to sequence actions together.
       </p>
-      <i>Goose waves hands as it starts speaking. After audio of utterances completes, then the sound effect plays.</i>
+      <i>Goose waves hands as it starts speaking. After hand-waving animation completes, sound effect plays.</i>
       <pre class="example" title="Sequencing Actions">
         [
-          {"subject": "goose", "action": "animate", "params": {"name": "wave-hands"}},
+          {"id": "0", "subject": "goose", "action": "animate", "params": {"name": "wave-hands"}},
           {"subject": "goose", "action": "say", "params": {"name": "GO_0020" ,"intent": "greeting"}},
-          {"subject": "sound", "action": "play", "params": {"name": "sfx.boom"}, "start": {"trigger" : "end", "id":1}}
+          {"subject": "sound", "action": "play", "params": {"name": "sfx.boom" ,"intent": "sfx.boom"}, "start": {"trigger" : "end", "id":0}}
         ]
       </pre>
+    </section>
 
-      <p>
-        In this example we show how to control different subjects in parallel.
-      </p>
-      <i>Goose and fox cheer "yay!", together at the same time.</i>
-      <pre class="example" title="Parallel Actions">
-        [
-          {"subject": "goose", "action": "say", "params": {"name": "GO_0020","intent": "yay"}},
-          {"subject": "fox", "action": "say", "params": {"name": "FX_0020","intent": "yay"}}
-        ]
-      </pre>
-
-      <p>
-        In this example we show how to control different subjects in parallel.
-      </p>
-      <i>Goose and fox cheer together, and then jump together.</i>
-      <pre class="example" title="Parallel Actions">
-        [
-          {"subject": "goose", "action": "say", "params": {"name": "GO_0020" ,"intent": "yay"}},
-          {"subject": "fox", "action": "say", "params": {"name": "FX_0020" ,"intent": "yay"}}
-        ]
-
-        [
-          {"subject": "goose", "action": "animate", "params": {"name": "jump"}},
-          {"subject": "fox", "action": "animate", "params": {"name": "jump"}}
-        ]
-      </pre>
-
-      <p>
-        In the following examples we show how to control different objects in parallel.
-      </p>
-      <i>Goose and fox cheer together (goose finishes before fox). Goose's jump animation starts right after cheering.
-        Same for Fox.</i>
-      <pre class="example" title="Parallel Actions">
-        [
-          {"id": "0", "subject": "goose", "action": "say", "params": {"name": "GO_0020" ,"intent": "yay"}},
-          {"id": "1", "subject": "fox", "action": "say", "params": {"name": "FX_0020" ,"intent": "yay"}},
-          {"subject": "goose", "action": "animate", "params": {"name": "jump"}, "start": {"trigger" : "end", "id":0}},
-          {"subject": "fox", "action": "animate", "params": {"name": "jump"}, "start": {"trigger" : "end", "id":1}}
-        ]
-      </pre>
-
-      <i>The Goose says 'hello' and waves hand at the Fox. The Fox says 'hi' back (without interrupting the goose's
-        utterance.</i>
-      <pre class="example">
-        [
-          {"subject": "goose", "action": "say", "params": {"name": "GO_0020" ,"intent": "greeting"}},
-          {"subject": "goose", "action": "animate", "params": {"name": "wave-hands"}},
-          {"subject": "fox", "action": "say", "params": {"name": "FX_0020" ,"intent": "greeting"}, "start": {"trigger" : "start", "id":1}, "delay": 0.5}
-        ]
+    <p>
+      In this example we show how to sequence actions together.
+    </p>
+    <i>Goose waves hands as it starts speaking. After audio of utterances completes, then the sound effect plays.</i>
+    <pre class="example" title="Sequencing Actions">
+      [
+        {"subject": "goose", "action": "animate", "params": {"name": "wave-hands"}},
+        {"subject": "goose", "action": "say", "params": {"name": "GO_0020" ,"intent": "greeting"}},
+        {"subject": "sound", "action": "play", "params": {"name": "sfx.boom"}, "start": {"trigger" : "end", "id":1}}
+      ]
     </pre>
+
+    <p>
+      In this example we show how to control different subjects in parallel.
+    </p>
+    <i>Goose and fox cheer "yay!", together at the same time.</i>
+    <pre class="example" title="Parallel Actions">
+      [
+        {"subject": "goose", "action": "say", "params": {"name": "GO_0020","intent": "yay"}},
+        {"subject": "fox", "action": "say", "params": {"name": "FX_0020","intent": "yay"}}
+      ]
+    </pre>
+
+    <p>
+      In this example we show how to control different subjects in parallel.
+    </p>
+    <i>Goose and fox cheer together, and then jump together.</i>
+    <pre class="example" title="Parallel Actions">
+      [
+        {"subject": "goose", "action": "say", "params": {"name": "GO_0020" ,"intent": "yay"}},
+        {"subject": "fox", "action": "say", "params": {"name": "FX_0020" ,"intent": "yay"}}
+      ]
+
+      [
+        {"subject": "goose", "action": "animate", "params": {"name": "jump"}},
+        {"subject": "fox", "action": "animate", "params": {"name": "jump"}}
+      ]
+    </pre>
+
+    <p>
+      In the following examples we show how to control different objects in parallel.
+    </p>
+    <i>Goose and fox cheer together (goose finishes before fox). Goose's jump animation starts right after cheering.
+      Same for Fox.</i>
+    <pre class="example" title="Parallel Actions">
+      [
+        {"id": "0", "subject": "goose", "action": "say", "params": {"name": "GO_0020" ,"intent": "yay"}},
+        {"id": "1", "subject": "fox", "action": "say", "params": {"name": "FX_0020" ,"intent": "yay"}},
+        {"subject": "goose", "action": "animate", "params": {"name": "jump"}, "start": {"trigger" : "end", "id":0}},
+        {"subject": "fox", "action": "animate", "params": {"name": "jump"}, "start": {"trigger" : "end", "id":1}}
+      ]
+    </pre>
+
+    <i>The Goose says 'hello' and waves hand at the Fox. The Fox says 'hi' back (without interrupting the goose's
+      utterance.</i>
+    <pre class="example">
+      [
+        {"subject": "goose", "action": "say", "params": {"name": "GO_0020" ,"intent": "greeting"}},
+        {"subject": "goose", "action": "animate", "params": {"name": "wave-hands"}},
+        {"subject": "fox", "action": "say", "params": {"name": "FX_0020" ,"intent": "greeting"}, "start": {"trigger" : "start", "id":1}, "delay": 0.5}
+      ]
+    </pre>
+  </section>
+
+
+  <section>
+    <h2>More Examples</h2>
+    <i>This section is normative.</i>
+    <p>
+      The following are examples of objects and their associated behaviors. Note that the specified parameters
+      for each of the following actions are <i>normative</i>.
+    </p>
+
+    <section>
+      <h2><code><dfn>Animate</dfn></code></h2>
+      <p>
+        An <a>animate</a> payload specifies an object to be animated by the client.
+      </p>
+      <pre class="example" title="Animate Message Payload">
+        {
+          "subject": "goose",
+          "action": "animate",
+          "delay": 0,
+          "params": { "name": "FR_Maracas_1" }
+        }
+      </pre>
     </section>
 
     <section>
-      <h2>Related Technologies</h2>
-      <i>This section is informative.</i>
-      <section>
-        <h2><a href="http://www.mindmakers.org/projects/bml-1-0/wiki">BML</a> vs. Act Blocks</h2>
-        <p>
-          The following <code><dfn data-cite="!BML#">BML</dfn></code> snippet simultaneously starts an
-          animation and a speech utterance.
-        </p>
-        <pre class="example">
+      <h2><code><dfn>Say</dfn></code></h2>
+      <p>A <a>say</a> payload specifies what the desired subject should say.</p>
+      <pre class="example" title="Say Message Payload">
+        {
+          "subject": "frog",
+          "action": "say",
+          "delay": 0,
+          "params": {
+            "intent": "statement.i-can-help",
+            "ssml": "I can help you with that!",
+            "name": "GO_0020",
+            "url": "http://audioURL...",
+            "phonemes": {
+              "segments": [
+                {
+                  "phonemeLabel": "IY",
+                  "startFrame": 3
+                }
+              ],
+              "framecount": 202
+            }
+          }
+        }
+      </pre>
+    </section>
+
+    <section>
+      <h2><code><dfn>Do</dfn></code></h2>
+      <p>A <a>do</a> payload specifies the name of the action the specified target should perform.</p>
+      <pre class="example" title="Do Message Payload">
+            {
+              "subject": "goose",
+              "action": "do",
+              "delay": 0,
+              "params": { "name": "walk", "context" : ["pig"]}
+            }
+          </pre>
+    </section>
+
+    <section>
+      <h2><code><dfn>Play</dfn></code></h2>
+      <p>A <a>play</a> payload specifies the audio clip the client should play.</p>
+      <pre class="example" title="Play Message Payload">
+            {
+              "subject": "sound",
+              "action": "play",
+              "delay": 0,
+              "params": { "name": "sxf.bonusround.wav" }
+            }
+          </pre>
+    </section>
+
+    <section>
+      <h2><code><dfn>Spawn</dfn></code></h2>
+      <p>A <a>spawn</a> payload notifies the client to display the specified object.</p>
+      <pre class="example" title="Spawn Message Payload">
+        {
+          "subject": "system",
+          "action": "spawn",
+          "delay": 0,
+          "params": {"name": "frog", "context": ["character2"]}
+        }
+      </pre>
+    </section>
+
+    <section>
+      <h2><code><dfn>Destroy</dfn></code></h2>
+      <p>A <a>destroy</a> payload notifies the client to remove the specified object.</p>
+      <pre class="example" title="Destroy Message Payload">
+        {
+          "subject": "system",
+          "action": "destroy",
+          "delay": 0,
+          "params": {"name": "frog"}
+        }
+      </pre>
+    </section>
+
+    <section>
+      <h2>Interruption handling</h2>
+
+      <p>
+        The client may store blocks in a queue and realize the behaviors at its own pace.
+        In the following example, the queue is cleared by calling <code>clear</code> action on a <code>system</code> subject.
+      </p>
+
+      <pre class="example">
+        {
+          "subject": "system",
+          "action": "clear"
+        }
+      </pre>
+
+      <p>
+        Clearing the queue only removes future actions, but doesn't interrupt the current actions.
+        The following example shows how to immediately terminte actions that are currently being performed.
+        The <code>params.ignore</code> field is a list of subjects to ignore/skip, if desired.
+      </p>
+
+      <pre class="example">
+        {
+          "subject": "system",
+          "action": "interrupt",
+          "params": {
+            "ignore": ["music"]
+          }
+        }
+      </pre>
+
+      <p>
+        Clearing the queue and interrupting current actions are two behaviors that tend to be performed together.
+        The following block shows how to send both behaviors at once.
+      </p>
+      <pre class="example">
+        [
+          {
+            "subject": "system",
+            "action": "clear"
+          },
+          {
+            "subject": "system",
+            "action": "interrupt",
+            "params": {
+              "ignore": ["music"]
+            }
+          }
+        ]
+      </pre>
+    </section>
+  </section>
+
+
+  <section>
+    <h2>Related Technologies</h2>
+    <i>This section is informative.</i>
+    <section>
+      <h2><a href="http://www.mindmakers.org/projects/bml-1-0/wiki">BML</a></h2>
+      <p>
+        The following <code><dfn data-cite="!BML#">BML</dfn></code> snippet simultaneously starts an
+        animation and a speech utterance.
+      </p>
+      <pre class="example">
         &ltbml character="Alice"&gt
             &ltpointing target="blueBox" mode="RIGHT_HAND" start="speech1:start"/&gt
             &ltspeech id="speech1"&gt
                 &lttext>Look there!&lt/text&gt
             &lt/speech&gt
         &lt/bml&gt
-
       </pre>
-      </section>
+    </section>
 
-      <p>The equivalent behavior can be represented as follows.</p>
-      <pre class="example">
+    <p>The equivalent behavior can be represented as follows.</p>
+    <pre class="example">
       [
         {"subject": "Alice", "action": "do", "params": {"name": "point", "context": ["blueBox", "mode": "RIGHT_HAND"]}},
         {"subject": "Alice", "action": "say", "params": {"intent": "look"}}
       ]
     </pre>
 
-      <p><a>BML</a> documentation recommends using <code>&ltwait&gt</code> to align behavior with a condition or an
-        event.</p>
-      <pre class="example">
+    <p><a>BML</a> documentation recommends using <code>&ltwait&gt</code> to align behavior with a condition or an
+      event.</p>
+    <pre class="example">
       &ltbml character="Alice"&gt
         &ltgesture id=”g1” type=”point” target=”object1”/&gt
         &ltbody id=”b1” posture=”sit”/&gt
@@ -914,9 +908,9 @@ interface Phonemes {
       &lt/bml&gt
     </pre>
 
-      <p>The <code>&ltwait&gt</code> is unnecessary since we can synchronize behaviors by placing them in different
-        blocks.</p>
-      <pre class="example">
+    <p>The <code>&ltwait&gt</code> is unnecessary since we can synchronize 
+      behaviors by placing them in different blocks.</p>
+    <pre class="example">
       [
         {"subject": "Alice", "action": "do", "params": {"name": "point", "context": ["object1"]}},
         {"subject": "Alice", "action": "do", "params": {"name": "body", "context": ["sit"]}}
@@ -927,9 +921,11 @@ interface Phonemes {
       ]
     </pre>
 
-      <p>Multi-party behavior synchronization is limited. It's non-trivial to have two characters say something at the
-        same time as <a>BML</a>.</p>
-      <pre class="example">
+    <p>
+      Multi-party behavior synchronization is limited. 
+      It's non-trivial to have two characters say something at the same time as <a>BML</a>.
+    </p>
+    <pre class="example">
       &ltbml character="Alice"&gt
           &ltspeech&gt&lttext&gtYay!&lt/text&gt&lt/speech&gt
       &lt/bml&gt
@@ -939,14 +935,16 @@ interface Phonemes {
       &lt/bml>
     </pre>
 
-      <p>Act message format allows fine-control of multi-party behaviors, with a natural syntax.</p>
-      <pre class="example">
+    <p>Act message format allows fine-control of multi-party behaviors, with a natural syntax.</p>
+    <pre class="example">
       [
         {"subject": "Alice", "action": "say", "params": {"intent": "yay"}},
         {"subject": "Bob", "action": "say", "params": {"intent": "yay"}}
       ]
     </pre>
-    </section>
+
+  </section>
+
 </body>
 
 </html>
